@@ -1,0 +1,29 @@
+.wishlist-item-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.move-to-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.move-to-cart-btn:hover {
+  background-color: var(--accent-terracotta);
+  color: #FFFFFF;
+}

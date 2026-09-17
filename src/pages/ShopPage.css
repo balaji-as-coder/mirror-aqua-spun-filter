@@ -1,0 +1,129 @@
+.shop-page-wrapper {
+  padding-bottom: var(--space-4xl);
+}
+
+.shop-header-banner {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--space-3xl) 0;
+  text-align: center;
+}
+
+.shop-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3vw + 0.5rem, 2.75rem);
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.shop-subtitle {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.shop-main-container {
+  padding-top: var(--space-2xl);
+}
+
+/* Discovery Pills */
+.discovery-pills-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-lg);
+  -webkit-overflow-scrolling: touch;
+}
+
+.pill-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.pill-btn:hover {
+  border-color: var(--text-primary);
+}
+
+.pill-btn.active {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+/* Toolbar */
+.shop-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: var(--space-2xl);
+}
+
+.product-count-text {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 12px;
+}
+
+.shop-select {
+  padding: 8px 14px;
+  font-size: 13px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xs);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.shop-product-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 600px) {
+  .shop-product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .shop-product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .shop-product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

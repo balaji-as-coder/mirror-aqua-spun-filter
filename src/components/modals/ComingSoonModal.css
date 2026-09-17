@@ -1,0 +1,63 @@
+.coming-soon-modal-content {
+  max-width: 520px;
+  padding: var(--space-2xl) var(--space-xl);
+  text-align: center;
+}
+
+.coming-soon-modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.coming-soon-modal-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-xl);
+}
+
+.coming-soon-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+}
+
+.input-text.with-icon {
+  padding-left: 42px;
+}
+
+.waitlist-submit-btn {
+  width: 100%;
+}
+
+.waitlist-privacy-note {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.coming-soon-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.success-icon {
+  color: var(--color-success);
+  margin-bottom: var(--space-xs);
+}
