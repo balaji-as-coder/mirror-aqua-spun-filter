@@ -54,7 +54,7 @@ export function Header({ currentPath = '/', onNavigate }) {
         {/* Brand Logo */}
         <div className="brand-logo-wrap" onClick={() => onNavigate('/')}>
           <span className="brand-logo-sub">EST. 2026</span>
-          <span className="brand-logo">KALA & CRAFT</span>
+          <span className="brand-logo">MIRROR CRAFT</span>
           <span className="brand-logo-tagline">HERITAGE DISCOVERY</span>
         </div>
 

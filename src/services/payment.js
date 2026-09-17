@@ -68,7 +68,7 @@ export class PaymentService {
         key: serverOrder.keyId,
         amount: serverOrder.amount,
         currency: serverOrder.currency,
-        name: 'KALA & CRAFT',
+        name: 'MIRROR CRAFT',
         description: `Order #${orderId}`,
         order_id: serverOrder.orderId,
         handler: async function (response) {

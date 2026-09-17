@@ -15,7 +15,7 @@ app.use(express.json());
 // ==============================================================================
 // 1. CONFIGURATION & CLIENT INITIALIZATION
 // ==============================================================================
-const WC_STORE_URL = process.env.WC_STORE_URL || 'https://mock.kalacraft.local';
+const WC_STORE_URL = process.env.WC_STORE_URL || 'https://mock.mirrorcraft.local';
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY || '';
 const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET || '';
 
@@ -308,5 +308,5 @@ app.post('/api/shipping/check-pincode', async (req, res) => {
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`🚀 KALA & CRAFT Secure Backend Integration Server running on http://localhost:${PORT}`);
+  console.log(`🚀 MIRROR CRAFT Secure Backend Integration Server running on http://localhost:${PORT}`);
 });

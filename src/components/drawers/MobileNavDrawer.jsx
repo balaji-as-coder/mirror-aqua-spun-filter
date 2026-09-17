@@ -33,7 +33,7 @@ export function MobileNavDrawer({ currentPath = '/', onNavigate }) {
       <div className={`drawer-panel mobile-nav-drawer ${isNavOpen ? 'active' : ''}`} role="dialog" aria-label="Navigation Menu">
         <div className="nav-drawer-header">
           <div className="brand-logo-wrap" onClick={() => handleLinkClick('/')}>
-            <span className="brand-logo" style={{ fontSize: '1.25rem' }}>KALA & CRAFT</span>
+            <span className="brand-logo" style={{ fontSize: '1.25rem' }}>MIRROR CRAFT</span>
           </div>
           <button
             className="drawer-close-btn"

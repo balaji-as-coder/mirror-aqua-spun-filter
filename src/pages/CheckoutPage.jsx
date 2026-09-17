@@ -165,7 +165,7 @@ export function CheckoutPage({ onNavigate }) {
             </Button>
             <a
               href={`https://wa.me/919876543210?text=${encodeURIComponent(
-                `Hello Kala & Craft, I placed Order #${completedOrder.orderId} and would like to track its status.`
+                `Hello Mirror Craft, I placed Order #${completedOrder.orderId} and would like to track its status.`
               )}`}
               target="_blank"
               rel="noopener noreferrer"

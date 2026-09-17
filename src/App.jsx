@@ -128,7 +128,7 @@ export function App() {
       return (
         <LegalPage
           title="TERMS & CONDITIONS"
-          content="By browsing and shopping on Kala & Craft, you agree to our standard terms of trade, authentic handcrafted product disclosures, and dispute resolutions under the jurisdiction of Indian law."
+          content="By browsing and shopping on Mirror Craft, you agree to our standard terms of trade, authentic handcrafted product disclosures, and dispute resolutions under the jurisdiction of Indian law."
         />
       );
     }

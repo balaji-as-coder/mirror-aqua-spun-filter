@@ -64,7 +64,7 @@ export function Footer({ onNavigate }) {
           {/* Column 1: Brand */}
           <div className="footer-col brand-col">
             <div className="footer-brand-logo" onClick={() => onNavigate('/')}>
-              <span className="footer-brand-title">KALA & CRAFT</span>
+              <span className="footer-brand-title">MIRROR CRAFT</span>
               <span className="footer-brand-tag">HERITAGE DISCOVERY</span>
             </div>
             <p className="footer-brand-desc">
@@ -72,7 +72,7 @@ export function Footer({ onNavigate }) {
             </p>
             {/* WhatsApp Direct Assist */}
             <a
-              href="https://wa.me/919876543210?text=Hello%20Kala%20%26%20Craft,%20I%20have%20an%20inquiry%20about%20a%20handmade%20piece."
+              href="https://wa.me/919876543210?text=Hello%20Mirror%20Craft,%20I%20have%20an%20inquiry%20about%20a%20handmade%20piece."
               target="_blank"
               rel="noopener noreferrer"
               className="whatsapp-assist-btn"
@@ -122,7 +122,7 @@ export function Footer({ onNavigate }) {
         {/* Footer Bottom */}
         <div className="footer-bottom">
           <p className="copyright-text">
-            © 2026 KALA & CRAFT. All rights reserved. Made slowly. Finished carefully. Designed to be kept.
+            © 2026 MIRROR CRAFT. All rights reserved. Made slowly. Finished carefully. Designed to be kept.
           </p>
           <div className="footer-social-links">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">

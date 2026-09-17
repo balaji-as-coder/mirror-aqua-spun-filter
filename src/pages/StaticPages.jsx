@@ -10,7 +10,7 @@ export function AboutPage({ onNavigate }) {
       </div>
       <div style={{ fontSize: '1.125rem', lineHeight: '1.8', color: 'var(--text-secondary)' }}>
         <p style={{ marginBottom: 'var(--space-lg)' }}>
-          Kala & Craft was established with a singular conviction: that handmade heritage objects possess a warmth, human resonance, and character that mass industrial manufacturing simply cannot duplicate.
+          Mirror Craft was established with a singular conviction: that handmade heritage objects possess a warmth, human resonance, and character that mass industrial manufacturing simply cannot duplicate.
         </p>
         <p style={{ marginBottom: 'var(--space-lg)' }}>
           We travel directly to artisan clusters across India — from the potter courtyards of Kutch to the tribal lost-wax hearths of Bastar. We collaborate directly with 4th and 5th-generation guilds, guaranteeing fair compensation, plastic-free transit, and complete provenance transparency.
