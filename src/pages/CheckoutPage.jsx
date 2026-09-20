@@ -139,7 +139,7 @@ export function CheckoutPage({ onNavigate }) {
           </p>
 
           <p className="success-lead-p">
-            A confirmation receipt has been sent to <strong>{completedOrder.customer.email}</strong>. Our artisans are carefully preparing and honeycomb-cushioning your pieces.
+            A confirmation receipt has been sent to <strong>{completedOrder.customer.email}</strong>. Your Mirror Aqua spare parts are being packaged securely for dispatch.
           </p>
 
           <div className="order-summary-box">
@@ -158,21 +158,28 @@ export function CheckoutPage({ onNavigate }) {
             </div>
           </div>
 
+          <div className="shipment-status-notice">
+            <Truck size={18} className="icon-cyan" />
+            <p>
+              <strong>Shipment Status:</strong> Processing at central warehouse. Live courier tracking details will become available immediately upon dispatch.
+            </p>
+          </div>
+
           <div className="success-actions-group">
-            <Button variant="primary" onClick={() => onNavigate('/shop')}>
-              <span>Continue Discovery</span>
+            <Button variant="primary" onClick={() => onNavigate('/product/10-inch-5-micron-pp-spun-filter')}>
+              <span>Continue Shopping</span>
               <ArrowRight size={16} />
             </Button>
             <a
               href={`https://wa.me/919876543210?text=${encodeURIComponent(
-                `Hello Mirror Craft, I placed Order #${completedOrder.orderId} and would like to track its status.`
+                `Hello Mirror Aqua, I placed Order #${completedOrder.orderId} and would like an update on dispatch.`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="whatsapp-receipt-btn"
             >
               <MessageCircle size={16} />
-              <span>Track Order on WhatsApp</span>
+              <span>Contact Mirror Aqua on WhatsApp</span>
             </a>
           </div>
         </div>
@@ -188,10 +195,10 @@ export function CheckoutPage({ onNavigate }) {
           <Lock size={48} className="empty-state-icon" />
           <h2 className="empty-state-title">Your Cart is Empty</h2>
           <p className="empty-state-text">
-            There are currently no pieces selected for checkout.
+            There are currently no spare parts selected for checkout.
           </p>
-          <Button variant="primary" onClick={() => onNavigate('/shop')}>
-            Explore Collection
+          <Button variant="primary" onClick={() => onNavigate('/product/10-inch-5-micron-pp-spun-filter')}>
+            View 10" PP Spun Filter
           </Button>
         </div>
       </div>
@@ -203,10 +210,10 @@ export function CheckoutPage({ onNavigate }) {
       <div className="container">
         <div className="checkout-page-header">
           <span className="section-eyebrow">Secure Checkout</span>
-          <h1 className="checkout-main-title">Finalize Your Discovery</h1>
+          <h1 className="checkout-main-title">Complete Your Order</h1>
           <div className="checkout-trust-badge">
             <ShieldCheck size={16} color="var(--color-success)" />
-            <span>WooCommerce Verified • 256-Bit SSL Encrypted</span>
+            <span>Mirror Aqua Verified • 256-Bit SSL Encrypted</span>
           </div>
         </div>
 

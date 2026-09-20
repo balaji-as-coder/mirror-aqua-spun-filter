@@ -184,7 +184,7 @@ export class WooCommerceService {
    * Submit authoritative order payload to WooCommerce.
    */
   async createOrder({ cartData, customer, shippingAddress, paymentResult, attribution }) {
-    const orderId = `KC-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+    const orderId = `MA-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const orderPayload = {
       orderId,
@@ -207,7 +207,15 @@ export class WooCommerceService {
       tax: cartData.taxAmount,
       total: cartData.grandTotal,
       payment: paymentResult,
-      attribution: attribution || {}
+      attribution: attribution || {},
+      meta_data: [
+        { key: 'utm_source', value: attribution?.utm_source || 'direct' },
+        { key: 'utm_medium', value: attribution?.utm_medium || 'none' },
+        { key: 'utm_campaign', value: attribution?.utm_campaign || 'none' },
+        { key: 'utm_content', value: attribution?.utm_content || '' },
+        { key: 'utm_term', value: attribution?.utm_term || '' },
+        { key: 'landing_page', value: attribution?.landingPage || '/product/10-inch-5-micron-pp-spun-filter' }
+      ]
     };
 
     return {

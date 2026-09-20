@@ -68,19 +68,20 @@ export class PaymentService {
         key: serverOrder.keyId,
         amount: serverOrder.amount,
         currency: serverOrder.currency,
-        name: 'MIRROR CRAFT',
-        description: `Order #${orderId}`,
+        name: 'MIRROR AQUA',
+        description: `Order #${orderId} — Water Purifier Spares`,
         order_id: serverOrder.orderId,
         handler: async function (response) {
           try {
-            // 3. Perform Server-Side Cryptographic Signature Verification
+            // 3. Perform Server-Side Cryptographic Signature Verification (Idempotent)
             const verifyRes = await fetch(`${API_BASE}/payment/razorpay/verify`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature
+                razorpay_signature: response.razorpay_signature,
+                orderData: { orderId, amount, customer }
               })
             });
 
@@ -105,7 +106,7 @@ export class PaymentService {
           email: customer.email,
           contact: customer.phone
         },
-        theme: { color: '#A65A43' },
+        theme: { color: '#0284C7' },
         modal: {
           ondismiss: function () {
             reject(new Error('Payment cancelled by user.'));
@@ -120,3 +121,4 @@ export class PaymentService {
 }
 
 export const paymentService = new PaymentService('mock');
+

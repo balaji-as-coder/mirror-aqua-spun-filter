@@ -1,59 +1,41 @@
 import React from 'react';
-import { MessageCircle, ShieldCheck, Truck, RefreshCw } from 'lucide-react';
+import { MessageCircle, ShieldCheck, Truck, CheckCircle2, PhoneCall } from 'lucide-react';
+import { analytics } from '../../services/analytics.js';
 import './Footer.css';
 
-function InstagramIcon({ size = 18 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-    </svg>
-  );
-}
-
-function FacebookIcon({ size = 18 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-    </svg>
-  );
-}
-
-function YoutubeIcon({ size = 18 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-      <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
-    </svg>
-  );
-}
-
 export function Footer({ onNavigate }) {
+  const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
+
+  const handleWhatsAppClick = () => {
+    analytics.trackWhatsAppClick('footer_help_btn', { name: 'Mirror Aqua General Support' });
+    const msg = encodeURIComponent('Hello Mirror Aqua, I need assistance with RO water purifier spare parts and replacement filters.');
+    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, '_blank');
+  };
+
   return (
     <footer className="site-footer">
       {/* Trust & Guarantee Ribbon */}
       <div className="footer-trust-ribbon">
         <div className="container trust-items-grid">
           <div className="trust-item">
-            <ShieldCheck size={20} className="trust-icon" />
+            <ShieldCheck size={22} className="trust-icon" />
             <div>
-              <strong>100% Genuine Provenance</strong>
-              <span>Direct artisan collaboration</span>
+              <strong>100% Polypropylene Media</strong>
+              <span>Thermal-bonded fibers with zero chemical binders</span>
             </div>
           </div>
           <div className="trust-item">
-            <Truck size={20} className="trust-icon" />
+            <CheckCircle2 size={22} className="trust-icon" />
             <div>
-              <strong>Plastic-Free Packaging</strong>
-              <span>Insured express delivery across India</span>
+              <strong>Standard 10-Inch Fit</strong>
+              <span>Compatible with standard pre-filter bowls</span>
             </div>
           </div>
           <div className="trust-item">
-            <RefreshCw size={20} className="trust-icon" />
+            <Truck size={22} className="trust-icon" />
             <div>
-              <strong>7-Day Doorstep Guarantee</strong>
-              <span>Hassle-free replacement if damaged</span>
+              <strong>Express Pan-India Dispatch</strong>
+              <span>Tracked delivery for domestic & commercial spares</span>
             </div>
           </div>
         </div>
@@ -63,77 +45,67 @@ export function Footer({ onNavigate }) {
         <div className="footer-grid">
           {/* Column 1: Brand */}
           <div className="footer-col brand-col">
-            <div className="footer-brand-logo" onClick={() => onNavigate('/')}>
-              <span className="footer-brand-title">MIRROR CRAFT</span>
-              <span className="footer-brand-tag">HERITAGE DISCOVERY</span>
+            <div className="footer-brand-logo" onClick={() => onNavigate('/product/10-inch-5-micron-pp-spun-filter')}>
+              <img
+                src="/images/product/logo1.jpeg"
+                alt="Mirror Aqua Water Purification & Spares"
+                className="footer-logo-img"
+              />
             </div>
             <p className="footer-brand-desc">
-              Handmade. Carefully selected. Exceptionally made. We discover products with character, quality, and a story worth bringing home.
+              Reliable sediment filters, RO membranes, and genuine water purifier spare parts. Manufactured for consistent filtration performance and long-lasting pre-treatment reliability across India.
             </p>
             {/* WhatsApp Direct Assist */}
-            <a
-              href="https://wa.me/919876543210?text=Hello%20Mirror%20Craft,%20I%20have%20an%20inquiry%20about%20a%20handmade%20piece."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="whatsapp-assist-btn"
-            >
+            <button onClick={handleWhatsAppClick} className="whatsapp-assist-btn">
               <MessageCircle size={16} />
-              <span>Artisan & Order Help on WhatsApp</span>
-            </a>
+              <span>Ask Mirror Aqua on WhatsApp</span>
+            </button>
           </div>
 
-          {/* Column 2: Shop */}
+          {/* Column 2: Products */}
           <div className="footer-col">
-            <h4 className="footer-heading">Shop</h4>
+            <h4 className="footer-heading">Spare Parts</h4>
             <ul className="footer-links">
-              <li><a href="/shop" onClick={(e) => { e.preventDefault(); onNavigate('/shop'); }}>All Products</a></li>
-              <li><a href="/category/handmade" onClick={(e) => { e.preventDefault(); onNavigate('/category/handmade'); }}>Handmade Crafts</a></li>
-              <li><a href="/category/new-arrivals" onClick={(e) => { e.preventDefault(); onNavigate('/category/new-arrivals'); }}>New Arrivals</a></li>
-              <li><a href="/category/featured" onClick={(e) => { e.preventDefault(); onNavigate('/category/featured'); }}>Featured Finds</a></li>
-              <li><a href="/shop?filter=editors-pick" onClick={(e) => { e.preventDefault(); onNavigate('/shop?filter=editors-pick'); }}>Editor's Picks</a></li>
+              <li><a href="/product/10-inch-5-micron-pp-spun-filter" onClick={(e) => { e.preventDefault(); onNavigate('/product/10-inch-5-micron-pp-spun-filter'); }}>10" 5-Micron PP Spun Filter</a></li>
+              <li><a href="/product/75-gpd-ro-membrane" onClick={(e) => { e.preventDefault(); onNavigate('/product/75-gpd-ro-membrane'); }}>75 GPD RO Membrane</a></li>
+              <li><a href="/product/10-inch-cto-carbon-block-filter" onClick={(e) => { e.preventDefault(); onNavigate('/product/10-inch-cto-carbon-block-filter'); }}>10" CTO Carbon Block</a></li>
+              <li><a href="/product/10-inch-pre-filter-housing" onClick={(e) => { e.preventDefault(); onNavigate('/product/10-inch-pre-filter-housing'); }}>Pre-Filter Housing Bowls</a></li>
             </ul>
           </div>
 
-          {/* Column 3: Discover */}
+          {/* Column 3: B2B & Trade */}
           <div className="footer-col">
-            <h4 className="footer-heading">Discover</h4>
+            <h4 className="footer-heading">Guides & Trade</h4>
             <ul className="footer-links">
-              <li><a href="/about" onClick={(e) => { e.preventDefault(); onNavigate('/about'); }}>Our Philosophy</a></li>
-              <li><a href="/stories" onClick={(e) => { e.preventDefault(); onNavigate('/stories'); }}>Artisan Stories</a></li>
-              <li><a href="/coming-soon" onClick={(e) => { e.preventDefault(); onNavigate('/coming-soon'); }}>Coming Soon (Regions)</a></li>
-              <li><a href="/stories/the-patience-of-clay-kutch-terracotta" onClick={(e) => { e.preventDefault(); onNavigate('/stories/the-patience-of-clay-kutch-terracotta'); }}>The Making of Terracotta</a></li>
+              <li><a href="/how-to-change-spun-filter" onClick={(e) => { e.preventDefault(); onNavigate('/how-to-change-spun-filter'); }}>Video: How to Change Filter 🎥</a></li>
+              <li><a href="#bulk-enquiry" onClick={(e) => { e.preventDefault(); const el = document.getElementById('bulk-enquiry'); if (el) el.scrollIntoView({ behavior: 'smooth' }); else onNavigate('/product/10-inch-5-micron-pp-spun-filter#bulk-enquiry'); }}>Bulk Cartridge Orders (50+)</a></li>
+              <li><a href="#dealer-enquiry" onClick={(e) => { e.preventDefault(); const el = document.getElementById('bulk-enquiry'); if (el) el.scrollIntoView({ behavior: 'smooth' }); else onNavigate('/product/10-inch-5-micron-pp-spun-filter#bulk-enquiry'); }}>Dealer Onboarding</a></li>
+              <li><a href="/faq" onClick={(e) => { e.preventDefault(); onNavigate('/faq'); }}>Technical FAQ</a></li>
             </ul>
           </div>
 
-          {/* Column 4: Help */}
+          {/* Column 4: Compliance & Technical Notice */}
           <div className="footer-col">
-            <h4 className="footer-heading">Help</h4>
-            <ul className="footer-links">
-              <li><a href="/contact" onClick={(e) => { e.preventDefault(); onNavigate('/contact'); }}>Contact Us</a></li>
-              <li><a href="/shipping" onClick={(e) => { e.preventDefault(); onNavigate('/shipping'); }}>Shipping & Delivery</a></li>
-              <li><a href="/returns" onClick={(e) => { e.preventDefault(); onNavigate('/returns'); }}>Returns & Replacements</a></li>
-              <li><a href="/faq" onClick={(e) => { e.preventDefault(); onNavigate('/faq'); }}>FAQs</a></li>
-              <li><a href="/privacy-policy" onClick={(e) => { e.preventDefault(); onNavigate('/privacy-policy'); }}>Privacy Policy</a></li>
-              <li><a href="/terms" onClick={(e) => { e.preventDefault(); onNavigate('/terms'); }}>Terms & Conditions</a></li>
-            </ul>
+            <h4 className="footer-heading">Filtration Disclosure</h4>
+            <p className="footer-compliance-notice">
+              PP spun sediment filters are mechanical depth filters engineered strictly for suspended physical particulate reduction (sand, silt, rust, dirt). They do not reduce dissolved chemical salts (TDS) or replace microbiological disinfection stages (UV/RO).
+            </p>
+            <div className="footer-contact-info">
+              <span>📍 Made in India</span>
+              <span>📞 WhatsApp Support Available Mon–Sat</span>
+            </div>
           </div>
         </div>
 
-        {/* Footer Bottom */}
         <div className="footer-bottom">
           <p className="copyright-text">
-            © 2026 MIRROR CRAFT. All rights reserved. Made slowly. Finished carefully. Designed to be kept.
+            © {new Date().getFullYear()} Mirror Aqua. All rights reserved. Genuine RO & Water Purification Spare Parts.
           </p>
-          <div className="footer-social-links">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <InstagramIcon size={18} />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <FacebookIcon size={18} />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <YoutubeIcon size={18} />
-            </a>
+          <div className="footer-legal-links">
+            <a href="/shipping" onClick={(e) => { e.preventDefault(); onNavigate('/shipping'); }}>Shipping Policy</a>
+            <a href="/returns" onClick={(e) => { e.preventDefault(); onNavigate('/returns'); }}>Replacement Guarantee</a>
+            <a href="/privacy-policy" onClick={(e) => { e.preventDefault(); onNavigate('/privacy-policy'); }}>Privacy Policy</a>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); onNavigate('/terms'); }}>Terms of Trade</a>
           </div>
         </div>
       </div>

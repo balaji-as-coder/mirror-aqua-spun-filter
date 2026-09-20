@@ -93,7 +93,7 @@ export function CartDrawer({ onNavigate }) {
                     className="cart-item-thumb"
                   />
                   <div className="cart-item-details">
-                    <span className="cart-item-craft">{item.product.craft}</span>
+                    <span className="cart-item-craft">{item.product.selectedPack || item.product.category || 'RO Spare Part'}</span>
                     <h4
                       className="cart-item-name"
                       onClick={() => {

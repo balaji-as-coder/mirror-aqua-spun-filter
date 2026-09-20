@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Heart, ShoppingBag, Menu, User, Sparkles } from 'lucide-react';
+import { Search, ShoppingBag, Menu, User, PhoneCall, ShieldCheck, Droplet } from 'lucide-react';
 import { useCart } from '../../context/CartContext.jsx';
 import { useWishlist } from '../../context/WishlistContext.jsx';
 import { useUI } from '../../context/UIContext.jsx';
+import { analytics } from '../../services/analytics.js';
 import './Header.css';
 
 export function Header({ currentPath = '/', onNavigate }) {
@@ -11,9 +12,11 @@ export function Header({ currentPath = '/', onNavigate }) {
   const { wishlistCount, setIsWishlistOpen } = useWishlist();
   const { setIsSearchOpen, setIsNavOpen } = useUI();
 
+  const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 30) {
+      if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -25,19 +28,34 @@ export function Header({ currentPath = '/', onNavigate }) {
   }, []);
 
   const navLinks = [
-    { label: 'Shop', path: '/shop' },
-    { label: 'Handmade', path: '/category/handmade' },
-    { label: 'New Finds', path: '/category/new-arrivals' },
-    { label: 'Our Stories', path: '/stories' },
-    { label: 'Coming Soon', path: '/coming-soon' }
+    { label: 'PP Spun Filter (10")', path: '/product/10-inch-5-micron-pp-spun-filter', isHighlight: true },
+    { label: 'How to Change Filter 🎥', path: '/how-to-change-spun-filter' },
+    { label: 'RO Membranes', path: '/product/75-gpd-ro-membrane' },
+    { label: 'Carbon Filters', path: '/product/10-inch-cto-carbon-block-filter' },
+    { label: 'Bulk Enquiry', path: '#bulk-enquiry', isAnchor: true }
   ];
 
+  const handleWhatsAppSupport = () => {
+    analytics.trackWhatsAppClick('header_support_btn', { name: 'Mirror Aqua General Support' });
+    const msg = encodeURIComponent('Hello Mirror Aqua, I have an inquiry regarding water purifier replacement spare parts.');
+    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, '_blank');
+  };
+
   return (
-    <header className={`site-header ${isScrolled ? 'scrolled' : 'transparent-hero'}`}>
-      {/* Announcement Bar */}
+    <header className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
+      {/* Sleek Top Announcement Ribbon */}
       <div className="announcement-bar">
         <div className="container announcement-content">
-          <span>✨ Curated Handmade Craftsmanship — Complimentary Express Shipping on orders over ₹2,500</span>
+          <div className="announcement-left">
+            <span className="announcement-pill">DISPATCH NOTICE</span>
+            <span>Mirror Aqua 10-Inch 5-Micron PP Spun Sediment Filters in Stock for Fast Pan-India Delivery</span>
+          </div>
+          <div className="announcement-right desktop-only">
+            <span className="announcement-badge"><ShieldCheck size={13} /> 100% Polypropylene</span>
+            <button className="announcement-wa-btn" onClick={handleWhatsAppSupport}>
+              WhatsApp Support
+            </button>
+          </div>
         </div>
       </div>
 
@@ -48,14 +66,16 @@ export function Header({ currentPath = '/', onNavigate }) {
           onClick={() => setIsNavOpen(true)}
           aria-label="Open Navigation Menu"
         >
-          <Menu size={22} />
+          <Menu size={20} />
         </button>
 
-        {/* Brand Logo */}
-        <div className="brand-logo-wrap" onClick={() => onNavigate('/')}>
-          <span className="brand-logo-sub">EST. 2026</span>
-          <span className="brand-logo">MIRROR CRAFT</span>
-          <span className="brand-logo-tagline">HERITAGE DISCOVERY</span>
+        {/* Official Mirror Aqua Brand Logo */}
+        <div className="brand-logo-wrap" onClick={() => onNavigate('/product/10-inch-5-micron-pp-spun-filter')}>
+          <img
+            src="/images/product/logo2.jpeg"
+            alt="Mirror Aqua Water Purification & Spares"
+            className="brand-logo-img"
+          />
         </div>
 
         {/* Desktop Navigation Links */}
@@ -65,10 +85,20 @@ export function Header({ currentPath = '/', onNavigate }) {
               <li key={link.path} className="nav-item">
                 <a
                   href={link.path}
-                  className={`nav-link ${currentPath === link.path ? 'active' : ''}`}
+                  className={`nav-link ${link.isHighlight ? 'nav-link-highlight' : ''} ${currentPath === link.path ? 'active' : ''}`}
                   onClick={(e) => {
-                    e.preventDefault();
-                    onNavigate(link.path);
+                    if (link.isAnchor) {
+                      e.preventDefault();
+                      const el = document.getElementById('bulk-enquiry');
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth' });
+                      } else {
+                        onNavigate('/product/10-inch-5-micron-pp-spun-filter#bulk-enquiry');
+                      }
+                    } else {
+                      e.preventDefault();
+                      onNavigate(link.path);
+                    }
                   }}
                 >
                   {link.label}
@@ -78,16 +108,16 @@ export function Header({ currentPath = '/', onNavigate }) {
           </ul>
         </nav>
 
-        {/* Header Action Icons */}
+        {/* Header Actions */}
         <div className="header-actions">
-          {/* Search Trigger */}
+          {/* WhatsApp Direct Support Button */}
           <button
-            className="header-action-btn"
-            onClick={() => setIsSearchOpen(true)}
-            aria-label="Search Collection"
+            className="header-whatsapp-cta desktop-only"
+            onClick={handleWhatsAppSupport}
+            aria-label="Contact on WhatsApp"
           >
-            <Search size={20} />
-            <span className="action-label desktop-only">Search</span>
+            <PhoneCall size={14} />
+            <span>Support</span>
           </button>
 
           {/* Account */}
@@ -96,34 +126,21 @@ export function Header({ currentPath = '/', onNavigate }) {
             onClick={() => onNavigate('/my-account')}
             aria-label="My Account"
           >
-            <User size={20} />
-            <span className="action-label">Account</span>
-          </button>
-
-          {/* Wishlist */}
-          <button
-            className="header-action-btn"
-            onClick={() => setIsWishlistOpen(true)}
-            aria-label="Wishlist"
-          >
-            <div className="icon-with-badge">
-              <Heart size={20} />
-              {wishlistCount > 0 && <span className="action-badge">{wishlistCount}</span>}
-            </div>
-            <span className="action-label desktop-only">Wishlist</span>
+            <User size={18} />
           </button>
 
           {/* Cart Drawer Trigger */}
           <button
-            className="header-action-btn header-cart-btn"
+            className="header-action-btn cart-btn"
             onClick={() => setIsCartOpen(true)}
-            aria-label="Shopping Cart"
+            aria-label={`Cart with ${totalItemCount} items`}
           >
-            <div className="icon-with-badge">
-              <ShoppingBag size={20} />
-              {totalItemCount > 0 && <span className="action-badge cart-badge">{totalItemCount}</span>}
-            </div>
-            <span className="action-label desktop-only">Cart</span>
+            <ShoppingBag size={18} />
+            {totalItemCount > 0 && (
+              <span className="cart-count-badge" aria-hidden="true">
+                {totalItemCount}
+              </span>
+            )}
           </button>
         </div>
       </div>
