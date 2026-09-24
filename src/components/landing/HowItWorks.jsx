@@ -18,9 +18,9 @@ export function HowItWorks() {
     },
     {
       number: '3',
-      title: 'Downstream RO Protection',
-      desc: 'Clarified, sediment-free water passes smoothly into carbon block filters, booster pumps, and the RO membrane housing.',
-      tag: 'Protected RO System'
+      title: 'Downstream Protection',
+      desc: 'Clarified, sediment-free water passes smoothly into subsequent purification stages and booster pumps without abrasive wear.',
+      tag: 'Protected Water System'
     }
   ];
 

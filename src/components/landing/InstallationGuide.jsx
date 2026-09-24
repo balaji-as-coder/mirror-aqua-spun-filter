@@ -4,7 +4,7 @@ import './ProductLanding.css';
 
 export function InstallationGuide() {
   const steps = [
-    { num: 1, title: 'Shut Off Water', desc: 'Turn off the inlet water valve and relieve housing pressure.' },
+    { num: 1, title: 'Shut Off Water', desc: 'Turn off the inlet water valve and relieve pre-filter bowl pressure.' },
     { num: 2, title: 'Unscrew Bowl', desc: 'Use spanner wrench counter-clockwise to detach the 10" bowl.' },
     { num: 3, title: 'Insert New Filter', desc: 'Place genuine Mirror Aqua PP spun cartridge onto the center guide.' },
     { num: 4, title: 'Tighten & Check', desc: 'Seat O-ring seal, hand-tighten bowl, and open water valve to inspect.' }

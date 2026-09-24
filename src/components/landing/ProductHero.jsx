@@ -112,10 +112,10 @@ export function ProductHero({ product, onNavigate }) {
 
           {/* Main Title & Subtitle */}
           <h1 className="hero-product-title">
-            Mirror Aqua 10-Inch 5-Micron <span className="title-highlight">PP Spun Filter</span>
+            Mirror Aqua <span className="title-nowrap">10-Inch 5-Micron</span> <span className="title-highlight">PP Spun Filter</span>
           </h1>
           <p className="hero-product-subtitle">
-            Precision-engineered 5-micron depth sediment filter for domestic & commercial RO housings. 100% pure melt-blown polypropylene with gradient multi-layer structure.
+            Precision-engineered 5-micron depth sediment filter for standard 10-inch pre-filter bowls. 100% pure melt-blown polypropylene with gradient multi-layer structure.
           </p>
 
           {/* Feature Badges */}

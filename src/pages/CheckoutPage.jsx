@@ -95,6 +95,8 @@ export function CheckoutPage({ onNavigate }) {
         amount: validatedCart.grandTotal,
         currency: 'INR',
         customer: formData,
+        items: validatedCart.items,
+        shippingFee: validatedCart.shippingFee,
         utm: analytics.getAttribution()
       });
 
@@ -126,20 +128,21 @@ export function CheckoutPage({ onNavigate }) {
 
   // ORDER CONFIRMATION SCREEN
   if (completedOrder) {
+    const shipment = completedOrder.payment?.shipment;
     return (
       <div className="container checkout-success-container">
         <div className="checkout-success-card">
           <div className="success-badge-icon">
             <CheckCircle2 size={44} color="var(--color-success)" />
           </div>
-          <span className="section-eyebrow">Order Confirmed</span>
+          <span className="section-eyebrow">Payment & Order Confirmed</span>
           <h1 className="success-order-title">Thank You for Your Order</h1>
           <p className="order-number-text">
             Order Reference: <strong>#{completedOrder.orderId}</strong>
           </p>
 
           <p className="success-lead-p">
-            A confirmation receipt has been sent to <strong>{completedOrder.customer.email}</strong>. Your Mirror Aqua spare parts are being packaged securely for dispatch.
+            A confirmation receipt has been sent to <strong>{completedOrder.customer.email}</strong>. Your Mirror Aqua PP Spun Filter cartridges are queued for dispatch via Shiprocket.
           </p>
 
           <div className="order-summary-box">
@@ -153,16 +156,45 @@ export function CheckoutPage({ onNavigate }) {
               ))}
             </div>
             <div className="receipt-total-row">
-              <span>Total Paid ({completedOrder.payment.paymentMethod})</span>
-              <strong>₹{completedOrder.total.toLocaleString('en-IN')}</strong>
+              <span>Payment Gateway</span>
+              <strong>{completedOrder.payment?.paymentMethod || 'Razorpay Verified'}</strong>
+            </div>
+            {completedOrder.payment?.transactionId && (
+              <div className="receipt-item-row text-muted" style={{ fontSize: '12px' }}>
+                <span>Razorpay Txn ID:</span>
+                <code>{completedOrder.payment.transactionId}</code>
+              </div>
+            )}
+            <div className="receipt-total-row" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid #e2e8f0' }}>
+              <span>Total Paid</span>
+              <strong style={{ color: 'var(--color-success)', fontSize: '18px' }}>₹{completedOrder.total.toLocaleString('en-IN')}</strong>
             </div>
           </div>
 
+          {/* Live Shiprocket Logistics Card */}
           <div className="shipment-status-notice">
-            <Truck size={18} className="icon-cyan" />
-            <p>
-              <strong>Shipment Status:</strong> Processing at central warehouse. Live courier tracking details will become available immediately upon dispatch.
-            </p>
+            <Truck size={22} className="icon-cyan" />
+            <div>
+              <strong>Shiprocket Logistics Integration:</strong>
+              <p style={{ margin: '4px 0 0 0' }}>
+                {shipment?.shipmentId ? (
+                  <>
+                    Shipment ID: <strong>{shipment.shipmentId}</strong> • Courier: <strong>{shipment.courierName || 'Delhivery'}</strong> • Status: <span style={{ color: '#059669', fontWeight: 600 }}>{shipment.status || 'READY TO DISPATCH'}</span>
+                  </>
+                ) : (
+                  <>
+                    Courier partner allocated automatically based on pincode <strong>{completedOrder.shippingAddress?.pincode}</strong>. Live tracking updates sent via SMS & WhatsApp.
+                  </>
+                )}
+              </p>
+              {shipment?.trackingUrl && (
+                <div style={{ marginTop: '6px' }}>
+                  <a href={shipment.trackingUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12.5px', color: '#0284c7', textDecoration: 'underline' }}>
+                    Track shipment on Shiprocket →
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="success-actions-group">
@@ -172,7 +204,7 @@ export function CheckoutPage({ onNavigate }) {
             </Button>
             <a
               href={`https://wa.me/919876543210?text=${encodeURIComponent(
-                `Hello Mirror Aqua, I placed Order #${completedOrder.orderId} and would like an update on dispatch.`
+                `Hello Mirror Aqua, I placed Order #${completedOrder.orderId} (Razorpay Txn: ${completedOrder.payment?.transactionId || 'N/A'}) and would like dispatch tracking updates.`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -401,7 +433,7 @@ export function CheckoutPage({ onNavigate }) {
               disabled={isProcessing}
             >
               <Lock size={16} />
-              <span>{isProcessing ? 'AUTHORIZING WITH WOOCOMMERCE...' : `PAY ₹${cartState.grandTotal?.toLocaleString('en-IN')} & COMPLETE ORDER`}</span>
+              <span>{isProcessing ? 'OPENING RAZORPAY SECURE GATEWAY...' : `PAY ₹${cartState.grandTotal?.toLocaleString('en-IN')} VIA RAZORPAY`}</span>
             </Button>
           </div>
 

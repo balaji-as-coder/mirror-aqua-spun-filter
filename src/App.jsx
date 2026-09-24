@@ -76,7 +76,7 @@ export function App() {
       return (
         <LegalPage
           title="REPLACEMENT & COMPATIBILITY GUARANTEE"
-          content="Mirror Aqua provides a direct replacement guarantee if any spare part arrives damaged or does not fit your compatible 10-inch housing. Contact our technical support on WhatsApp within 7 days of delivery for immediate dispatch of replacement."
+          content="Mirror Aqua provides a direct replacement guarantee if any spare part arrives damaged or does not fit your compatible 10-inch pre-filter bowl. Contact our technical support on WhatsApp within 7 days of delivery for immediate dispatch of replacement."
         />
       );
     }
@@ -94,7 +94,7 @@ export function App() {
       return (
         <LegalPage
           title="TERMS & CONDITIONS"
-          content="All Mirror Aqua products are sold under official trade specifications. Customers must verify housing dimensions and follow purifier manufacturer operating instructions. All trade disputes are governed under applicable Indian jurisdiction."
+          content="All Mirror Aqua products are sold under official trade specifications. Customers must verify bowl dimensions and follow purifier manufacturer operating instructions. All trade disputes are governed under applicable Indian jurisdiction."
         />
       );
     }

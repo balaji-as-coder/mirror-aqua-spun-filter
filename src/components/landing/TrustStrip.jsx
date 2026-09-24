@@ -17,7 +17,7 @@ export function TrustStrip() {
     {
       icon: <CheckCircle2 size={24} className="pillar-icon" />,
       title: '10 INCH SIZE',
-      desc: 'Universal standard housing fit'
+      desc: 'Universal standard bowl fit'
     },
     {
       icon: <ShieldCheck size={24} className="pillar-icon" />,

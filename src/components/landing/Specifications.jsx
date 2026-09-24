@@ -11,9 +11,9 @@ export function Specifications({ specifications = {} }) {
     { label: 'Outer Diameter', value: specifications.outerDiameter || 'Approx. 60 – 63 mm' },
     { label: 'Inner Core Diameter', value: specifications.innerCoreDiameter || 'Approx. 28 – 30 mm' },
     { label: 'Construction Material', value: specifications.material || '100% Pure Polypropylene (Melt-Blown Microfiber)' },
-    { label: 'Application', value: specifications.application || 'Compatible RO & Water Purifier Housings' },
+    { label: 'Application', value: specifications.application || 'Standard 10-Inch Pre-Filter Bowls' },
     { label: 'Operating Temperature', value: specifications.recommendedOperatingTemp || '4°C to 45°C' },
-    { label: 'Max Working Pressure', value: specifications.maximumPressure || '125 PSI (Housing Dependent)' },
+    { label: 'Max Working Pressure', value: specifications.maximumPressure || '125 PSI (Bowl Dependent)' },
     { label: 'Brand', value: specifications.brand || 'Mirror Aqua' },
     { label: 'Country of Origin', value: specifications.countryOfOrigin || 'India' }
   ];

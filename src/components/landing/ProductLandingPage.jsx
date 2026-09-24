@@ -5,13 +5,10 @@ import { ProblemSection } from './ProblemSection.jsx';
 import { BenefitsSection } from './BenefitsSection.jsx';
 import { HowItWorks } from './HowItWorks.jsx';
 import { Specifications } from './Specifications.jsx';
-import { CompatibilityChecker } from './CompatibilityChecker.jsx';
 import { InstallationGuide } from './InstallationGuide.jsx';
 import { BulkEnquiry } from './BulkEnquiry.jsx';
 import { FAQAccordion } from './FAQAccordion.jsx';
 import { ReviewsSection } from './ReviewsSection.jsx';
-import { RelatedProducts } from './RelatedProducts.jsx';
-import { FinalCTA } from './FinalCTA.jsx';
 import { StickyMobileCTA } from './StickyMobileCTA.jsx';
 import { PRODUCTS } from '../../data/products.js';
 import { analytics } from '../../services/analytics.js';
@@ -169,22 +166,16 @@ export function ProductLandingPage({ slug = '10-inch-5-micron-pp-spun-filter', o
       {/* 6. Technical Specifications Table */}
       <Specifications specifications={product.specifications || {}} />
 
-      {/* 7. Purifier Compatibility Checker */}
-      <CompatibilityChecker />
-
-      {/* 8. B2B Bulk Order & Wholesale Pricing (CRM) */}
+      {/* 7. B2B Bulk Order & Wholesale Pricing (CRM) */}
       <BulkEnquiry />
 
       {/* 9. Technical FAQ Accordion */}
       <FAQAccordion faqs={product.faqs || []} />
 
-      {/* 10. Verified Technician & Customer Reviews */}
+      {/* 8. Verified Technician & Customer Reviews */}
       <ReviewsSection />
 
-      {/* 11. High-Impact Closing CTA Banner */}
-      <FinalCTA product={product} onNavigate={onNavigate} />
-
-      {/* 12. Mobile Sticky Bottom Action Bar */}
+      {/* 9. Mobile Sticky Bottom Action Bar */}
       <StickyMobileCTA product={product} onNavigate={onNavigate} />
     </div>
   );

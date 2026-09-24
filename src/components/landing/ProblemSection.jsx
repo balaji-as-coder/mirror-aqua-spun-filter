@@ -19,7 +19,7 @@ export function ProblemSection() {
             Your purification system starts with clean pre-filtration.
           </h2>
           <p className="section-subtitle">
-            Raw incoming water carries suspended physical particles that can prematurely clog delicate carbon blocks, foul expensive RO membranes, and wear down booster pump impellers.
+            Raw incoming water carries suspended physical particles that can prematurely clog delicate internal filters and wear down booster pump impellers.
           </p>
         </div>
 

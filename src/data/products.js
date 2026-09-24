@@ -10,8 +10,8 @@ export const PRODUCTS = [
     sku: 'MA-PP-10-05M',
     slug: '10-inch-5-micron-pp-spun-filter',
     name: 'Mirror Aqua 10-Inch 5-Micron PP Spun Filter',
-    shortDescription: 'Precision-engineered 5-micron depth sediment filter for domestic and commercial RO water purifier housings. 100% pure melt-blown polypropylene.',
-    description: 'The Mirror Aqua 10-Inch 5-Micron PP Spun Sediment Filter is precision-engineered using 100% pure thermal-bonded polypropylene microfibers. Designed as the vital first stage of pre-filtration in standard 10-inch filter housings, it effectively traps suspended physical particles including sand, silt, rust, and visible debris before water reaches sensitive downstream components such as carbon blocks and RO membranes.',
+    shortDescription: 'Precision-engineered 5-micron depth sediment filter for standard 10-inch pre-filter bowls. 100% pure melt-blown polypropylene.',
+    description: 'The Mirror Aqua 10-Inch 5-Micron PP Spun Sediment Filter is precision-engineered using 100% pure thermal-bonded polypropylene microfibers. Designed as the vital first stage of pre-filtration in standard 10-inch filter bowls, it effectively traps suspended physical particles including sand, silt, rust, and visible debris before water reaches downstream purification stages.',
     
     // Categorization
     category: 'Sediment Filter',
@@ -59,9 +59,9 @@ export const PRODUCTS = [
       outerDiameter: 'Approx. 60 - 63 mm',
       innerCoreDiameter: 'Approx. 28 - 30 mm',
       material: '100% Pure Melt-Blown Polypropylene',
-      application: 'Pre-filtration for compatible 10-inch RO housings',
+      application: 'Pre-filtration for compatible 10-inch filter bowls',
       recommendedOperatingTemp: '4°C to 45°C',
-      maximumPressure: '125 PSI (Housing Dependent)',
+      maximumPressure: '125 PSI (Bowl Dependent)',
       brand: 'Mirror Aqua',
       countryOfOrigin: 'India'
     },
@@ -89,7 +89,7 @@ export const PRODUCTS = [
       {
         id: 'b4',
         title: 'Universal 10-Inch Fit',
-        description: 'Precision dimensioning engineered for universal drop-in fit across all standard 10-inch domestic and light-commercial housings.',
+        description: 'Precision dimensioning engineered for universal drop-in fit across all standard 10-inch domestic and commercial bowls.',
         icon: 'CheckCircle'
       },
       {
@@ -100,8 +100,8 @@ export const PRODUCTS = [
       },
       {
         id: 'b6',
-        title: 'Downstream RO Protection',
-        description: 'Safeguards activated carbon block pores and thin-film composite RO membranes from premature clogging and abrasion.',
+        title: 'Downstream Equipment Protection',
+        description: 'Safeguards internal purifier stages, booster pumps, and delicate filtration elements from premature clogging and abrasion.',
         icon: 'ShieldCheck'
       }
     ],
@@ -192,98 +192,5 @@ export const PRODUCTS = [
       ],
       canonicalUrl: 'https://mirroraqua.in/product/10-inch-5-micron-pp-spun-filter/'
     }
-  },
-  {
-    id: 'ma-prod-002',
-    sku: 'MA-ROM-75G',
-    slug: '75-gpd-ro-membrane',
-    name: 'Mirror Aqua 75 GPD Thin-Film RO Membrane',
-    shortDescription: 'High-rejection Thin-Film Composite (TFC) membrane for domestic RO purification systems.',
-    description: 'Precision-wound 75 GPD RO membrane designed for standard domestic RO membrane housings. Removes dissolved solids, heavy metal ions, and salts.',
-    category: 'RO Membrane',
-    productType: 'RO Membrane Cartridge',
-    brand: 'Mirror Aqua',
-    countryOfOrigin: 'India',
-    price: 899,
-    mrp: 1499,
-    taxClass: 'gst_18',
-    stock: 120,
-    stockStatus: 'instock',
-    packTiers: [
-      { quantity: 1, label: '1 Piece', unitPrice: 899, totalPrice: 899, mrpTotal: 1499, savingsPercent: 40 }
-    ],
-    specifications: {
-      capacity: '75 GPD (Gallons Per Day)',
-      membraneType: 'Polyamide Thin-Film Composite',
-      standardSize: '1812 Residential Housing Fit'
-    },
-    images: [
-      {
-        url: '/images/pp_filter_closeup.jpg',
-        altText: 'Mirror Aqua 75 GPD RO Membrane'
-      }
-    ]
-  },
-  {
-    id: 'ma-prod-003',
-    sku: 'MA-CTO-10',
-    slug: '10-inch-cto-carbon-block-filter',
-    name: 'Mirror Aqua 10-Inch CTO Carbon Block Filter',
-    shortDescription: 'Activated carbon block cartridge for chlorine, odor, and volatile organic compound reduction.',
-    description: 'Extruded activated carbon block filter designed to fit standard 10-inch housings. Protects RO membranes from chlorine degradation.',
-    category: 'Carbon Filter',
-    productType: 'Carbon Block (CTO)',
-    brand: 'Mirror Aqua',
-    countryOfOrigin: 'India',
-    price: 249,
-    mrp: 450,
-    taxClass: 'gst_18',
-    stock: 180,
-    stockStatus: 'instock',
-    packTiers: [
-      { quantity: 1, label: '1 Piece', unitPrice: 249, totalPrice: 249, mrpTotal: 450, savingsPercent: 45 }
-    ],
-    specifications: {
-      filterType: 'Extruded Carbon Block (CTO)',
-      size: '10 Inch Standard',
-      media: 'High-Iodine Activated Coconut Shell Carbon'
-    },
-    images: [
-      {
-        url: '/images/pp_filter_closeup.jpg',
-        altText: 'Mirror Aqua 10-Inch CTO Carbon Block'
-      }
-    ]
-  },
-  {
-    id: 'ma-prod-004',
-    sku: 'MA-HSG-10',
-    slug: '10-inch-pre-filter-housing',
-    name: 'Mirror Aqua 10-Inch Heavy-Duty Pre-Filter Housing Bowl',
-    shortDescription: 'Reinforced transparent pre-filter housing bowl with brass threaded ports for 10-inch cartridges.',
-    description: 'Durable food-grade virgin polypropylene pre-filter housing with double O-ring seal to prevent leaks under municipal water pressure.',
-    category: 'Spare Parts',
-    productType: 'Filter Housing Bowl',
-    brand: 'Mirror Aqua',
-    countryOfOrigin: 'India',
-    price: 399,
-    mrp: 750,
-    taxClass: 'gst_18',
-    stock: 90,
-    stockStatus: 'instock',
-    packTiers: [
-      { quantity: 1, label: '1 Housing with Spanner', unitPrice: 399, totalPrice: 399, mrpTotal: 750, savingsPercent: 47 }
-    ],
-    specifications: {
-      material: 'Food-Grade Virgin Polypropylene',
-      portSize: '1/4 Inch or 3/8 Inch Threaded',
-      maximumPressure: '125 PSI'
-    },
-    images: [
-      {
-        url: '/images/pp_filter_housing.jpg',
-        altText: 'Mirror Aqua 10-Inch Housing Bowl'
-      }
-    ]
   }
 ];

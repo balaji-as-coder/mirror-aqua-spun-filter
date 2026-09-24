@@ -30,8 +30,8 @@ export function BenefitsSection({ benefits = [] }) {
       icon: <RefreshCw size={22} />
     },
     {
-      title: 'Protects Costly RO Membranes',
-      description: 'Safeguards carbon blocks and delicate RO thin-film membranes from premature fouling.',
+      title: 'Protects Downstream Purifier Stages',
+      description: 'Safeguards downstream booster pumps, internal filters, and fine filtration elements from premature clogging.',
       icon: <ShieldCheck size={22} />
     }
   ];

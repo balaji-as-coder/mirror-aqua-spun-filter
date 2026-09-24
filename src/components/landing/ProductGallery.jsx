@@ -8,7 +8,7 @@ export function ProductGallery({ images = [], productName = 'Mirror Aqua PP Spun
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const activeImage = images[activeIndex] || {
-    url: '/images/pp_filter_main.jpg',
+    url: '/images/product/008.jpeg',
     altText: productName
   };
 

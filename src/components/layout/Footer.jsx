@@ -53,7 +53,7 @@ export function Footer({ onNavigate }) {
               />
             </div>
             <p className="footer-brand-desc">
-              Reliable sediment filters, RO membranes, and genuine water purifier spare parts. Manufactured for consistent filtration performance and long-lasting pre-treatment reliability across India.
+              Reliable PP spun sediment filters and genuine water purifier pre-filtration elements. Manufactured for consistent filtration performance and long-lasting reliability across India.
             </p>
             {/* WhatsApp Direct Assist */}
             <button onClick={handleWhatsAppClick} className="whatsapp-assist-btn">
@@ -64,12 +64,11 @@ export function Footer({ onNavigate }) {
 
           {/* Column 2: Products */}
           <div className="footer-col">
-            <h4 className="footer-heading">Spare Parts</h4>
+            <h4 className="footer-heading">Products</h4>
             <ul className="footer-links">
               <li><a href="/product/10-inch-5-micron-pp-spun-filter" onClick={(e) => { e.preventDefault(); onNavigate('/product/10-inch-5-micron-pp-spun-filter'); }}>10" 5-Micron PP Spun Filter</a></li>
-              <li><a href="/product/75-gpd-ro-membrane" onClick={(e) => { e.preventDefault(); onNavigate('/product/75-gpd-ro-membrane'); }}>75 GPD RO Membrane</a></li>
-              <li><a href="/product/10-inch-cto-carbon-block-filter" onClick={(e) => { e.preventDefault(); onNavigate('/product/10-inch-cto-carbon-block-filter'); }}>10" CTO Carbon Block</a></li>
-              <li><a href="/product/10-inch-pre-filter-housing" onClick={(e) => { e.preventDefault(); onNavigate('/product/10-inch-pre-filter-housing'); }}>Pre-Filter Housing Bowls</a></li>
+              <li><a href="#bulk-enquiry" onClick={(e) => { e.preventDefault(); const el = document.getElementById('bulk-enquiry'); if (el) el.scrollIntoView({ behavior: 'smooth' }); else onNavigate('/product/10-inch-5-micron-pp-spun-filter#bulk-enquiry'); }}>10-Pack Value Bundles</a></li>
+              <li><a href="#bulk-enquiry" onClick={(e) => { e.preventDefault(); const el = document.getElementById('bulk-enquiry'); if (el) el.scrollIntoView({ behavior: 'smooth' }); else onNavigate('/product/10-inch-5-micron-pp-spun-filter#bulk-enquiry'); }}>Wholesale Master Cartons</a></li>
             </ul>
           </div>
 

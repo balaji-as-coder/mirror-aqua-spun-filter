@@ -18,15 +18,15 @@ export function FAQAccordion({ faqs = [] }) {
     },
     {
       q: 'Is this compatible with RO purifiers?',
-      a: 'Yes, this filter is compatible with standard 10-inch pre-filter bowls/housings commonly installed before RO, UV, and UF water purifiers.'
+      a: 'Yes, this filter is compatible with standard 10-inch pre-filter bowls commonly installed before domestic and commercial water purifiers.'
     },
     {
       q: 'Does this filter reduce TDS?',
-      a: 'No. PP spun sediment filters are intended exclusively for physical suspended-particle filtration. Total Dissolved Solids (TDS) reduction is performed by Reverse Osmosis (RO) membranes.'
+      a: 'No. PP spun sediment filters are intended exclusively for physical suspended-particle filtration. Total Dissolved Solids (TDS) reduction is performed by downstream fine purification stages.'
     },
     {
       q: 'Does this filter remove bacteria or viruses?',
-      a: 'No. A sediment filter is not a disinfection stage and should not be relied upon for microbiological purification. Disinfection is handled by technologies like UV lamps, UF membranes, or RO purification stages.'
+      a: 'No. A sediment filter is not a disinfection stage and should not be relied upon for microbiological purification. Disinfection is handled by technologies like UV lamps or fine purification stages.'
     },
     {
       q: 'How often should I replace it?',
@@ -34,7 +34,7 @@ export function FAQAccordion({ faqs = [] }) {
     },
     {
       q: 'Is this a 10-inch filter?',
-      a: 'Yes, this is a standard 10-inch (nominal length ~254 mm) cartridge designed for standard 10-inch pre-filter housings.'
+      a: 'Yes, this is a standard 10-inch (nominal length ~254 mm) cartridge designed for standard 10-inch pre-filter bowls.'
     },
     {
       q: 'Can I buy in bulk for service centers or dealerships?',
@@ -42,7 +42,7 @@ export function FAQAccordion({ faqs = [] }) {
     },
     {
       q: 'How do I know whether it fits my water purifier?',
-      a: 'Check your existing pre-filter bowl or housing. If it uses a standard 10-inch drop-in cartridge, this filter will fit. If unsure, use our "Ask Mirror Aqua on WhatsApp" button with your purifier model name.'
+      a: 'Check your existing pre-filter bowl. If it uses a standard 10-inch drop-in cartridge, this filter will fit. If unsure, use our "Ask Mirror Aqua on WhatsApp" button with your purifier model name.'
     },
     {
       q: 'Does this filter contain any chemical binders?',

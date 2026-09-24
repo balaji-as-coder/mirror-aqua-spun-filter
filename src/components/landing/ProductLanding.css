@@ -176,9 +176,13 @@
   font-size: clamp(2rem, 3.6vw, 2.85rem);
   font-weight: 800;
   color: #07111e;
-  line-height: 1.12;
+  line-height: 1.15;
   letter-spacing: -0.03em;
   margin-bottom: 12px;
+}
+
+.title-nowrap {
+  white-space: nowrap;
 }
 
 .title-highlight {

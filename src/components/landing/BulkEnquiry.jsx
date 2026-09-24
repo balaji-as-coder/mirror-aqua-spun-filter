@@ -305,7 +305,7 @@ export function BulkEnquiry() {
                       id="bulk-msg"
                       name="message"
                       rows={3}
-                      placeholder="Specify if you also need RO membranes, CTO carbon blocks, or regular monthly schedules..."
+                      placeholder="Specify required pack quantities, delivery preferences, or custom requirements..."
                       value={formData.message}
                       onChange={handleChange}
                     />

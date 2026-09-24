@@ -30,8 +30,6 @@ export function Header({ currentPath = '/', onNavigate }) {
   const navLinks = [
     { label: 'PP Spun Filter (10")', path: '/product/10-inch-5-micron-pp-spun-filter', isHighlight: true },
     { label: 'How to Change Filter 🎥', path: '/how-to-change-spun-filter' },
-    { label: 'RO Membranes', path: '/product/75-gpd-ro-membrane' },
-    { label: 'Carbon Filters', path: '/product/10-inch-cto-carbon-block-filter' },
     { label: 'Bulk Enquiry', path: '#bulk-enquiry', isAnchor: true }
   ];
 

@@ -128,7 +128,7 @@ export function VideoTutorialPage({ onNavigate }) {
               <span className="vp-cta-badge">GENUINE REPLACEMENT SPARE</span>
               <h3 className="vp-cta-title">Mirror Aqua 10-Inch 5-Micron PP Spun Filter</h3>
               <p className="vp-cta-desc">
-                100% pure melt-blown polypropylene with genuine embossed brand stamp. Traps mud, rust, silt, and sand particles before they reach delicate RO membranes.
+                100% pure melt-blown polypropylene with genuine embossed brand stamp. Traps mud, rust, silt, and sand particles before they reach delicate internal purifier components.
               </p>
               <div className="vp-pricing-row">
                 <span className="vp-price">₹199</span>
