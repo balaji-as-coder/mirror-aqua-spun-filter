@@ -93,7 +93,7 @@ export function CartDrawer({ onNavigate }) {
                     className="cart-item-thumb"
                   />
                   <div className="cart-item-details">
-                    <span className="cart-item-craft">{item.product.selectedPack || item.product.category || 'RO Spare Part'}</span>
+                    <span className="cart-item-craft">{item.product.selectedPack || item.product.category || '10-Inch 5-Micron Sediment Filter'}</span>
                     <h4
                       className="cart-item-name"
                       onClick={() => {
@@ -142,18 +142,18 @@ export function CartDrawer({ onNavigate }) {
           ) : (
             <div className="empty-state">
               <ShoppingBag size={48} className="empty-state-icon" />
-              <h3 className="empty-state-title">Your discovery starts here</h3>
+              <h3 className="empty-state-title">Your Cart is Empty</h3>
               <p className="empty-state-text">
-                Explore our collection of authentic handmade heritage pieces.
+                Add the Mirror Aqua 10-Inch 5-Micron PP Spun Filter to start.
               </p>
               <Button
                 variant="primary"
                 onClick={() => {
                   setIsCartOpen(false);
-                  onNavigate('/shop');
+                  onNavigate('/product/10-inch-5-micron-pp-spun-filter');
                 }}
               >
-                Explore Collection
+                View 10" PP Spun Filter
               </Button>
             </div>
           )}
@@ -176,7 +176,7 @@ export function CartDrawer({ onNavigate }) {
                 <form className="coupon-form" onSubmit={handleApplyCoupon}>
                   <input
                     type="text"
-                    placeholder="Coupon code (e.g. HERITAGE10)"
+                    placeholder="Coupon code (e.g. AQUA10)"
                     value={inputCoupon}
                     onChange={(e) => setInputCoupon(e.target.value)}
                     className="coupon-input"
@@ -223,7 +223,7 @@ export function CartDrawer({ onNavigate }) {
 
             <div className="cart-trust-note">
               <ShieldCheck size={14} />
-              <span>WooCommerce Verified • Secure 256-bit Encryption</span>
+              <span>Mirror Aqua Verified • Secure 256-bit Encryption</span>
             </div>
           </div>
         )}

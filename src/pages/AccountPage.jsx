@@ -64,10 +64,10 @@ export function AccountPage({ onNavigate }) {
               <Package size={44} style={{ color: 'var(--text-muted)', marginBottom: 'var(--space-md)' }} />
               <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', marginBottom: '6px' }}>No Past Orders Placed Yet</h3>
               <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-lg)' }}>
-                When you discover and order handmade pieces, your tracking timelines and invoices will appear here.
+                When you order Mirror Aqua 10-Inch 5-Micron PP Spun Filter cartridges, your order references, Razorpay receipts, and Shiprocket tracking will appear here.
               </p>
-              <Button variant="primary" onClick={() => onNavigate('/shop')}>
-                Explore Collection
+              <Button variant="primary" onClick={() => onNavigate('/product/10-inch-5-micron-pp-spun-filter')}>
+                View 10" PP Spun Filter
               </Button>
             </div>
           )}
