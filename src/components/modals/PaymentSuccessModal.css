@@ -1,0 +1,445 @@
+/* Payment Success Modal Styles */
+.payment-success-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.payment-success-modal-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px 28px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(2, 132, 199, 0.1);
+  animation: cardSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Confetti decorative background bubbles */
+.confetti-bubble {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(20px);
+  opacity: 0.15;
+}
+
+.bubble-1 {
+  top: -20px;
+  left: 20px;
+  width: 120px;
+  height: 120px;
+  background: #0284c7;
+}
+
+.bubble-2 {
+  top: 40px;
+  right: -20px;
+  width: 140px;
+  height: 140px;
+  background: #10b981;
+}
+
+.bubble-3 {
+  bottom: 20px;
+  left: 40%;
+  width: 100px;
+  height: 100px;
+  background: #38bdf8;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Header & Success Glow */
+.modal-success-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.success-pulse-ring {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  border: 2px solid #a7f3d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(16, 185, 129, 0);
+  }
+}
+
+.success-check-icon {
+  color: #059669;
+}
+
+.success-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #eff6ff;
+  color: #0284c7;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid #bfdbfe;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.modal-success-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 4px 0 6px;
+}
+
+.modal-success-subtitle {
+  font-size: 13.5px;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Receipt Badge */
+.payment-receipt-badge {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.receipt-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.receipt-meta-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+
+.receipt-id-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.receipt-order-id {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  font-family: monospace;
+}
+
+.copy-icon-btn {
+  background: #e2e8f0;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 5px;
+  cursor: pointer;
+  color: #475569;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.copy-icon-btn:hover {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
+.receipt-right-meta {
+  text-align: right;
+}
+
+.receipt-amount-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #059669;
+}
+
+.receipt-txn-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  padding-top: 8px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.txn-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.txn-code {
+  font-family: monospace;
+  background: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  color: #0284c7;
+  font-weight: 600;
+}
+
+/* Shiprocket Logistics Dispatch Status */
+.shiprocket-dispatch-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.dispatch-header-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.dispatch-icon-wrap {
+  background: #22c55e;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dispatch-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #14532d;
+  margin: 0 0 2px;
+}
+
+.dispatch-desc {
+  font-size: 12px;
+  color: #166534;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.status-badge-active {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.shipment-id-badge {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: #166534;
+}
+
+.shiprocket-track-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+.shiprocket-track-link:hover {
+  color: #0369a1;
+}
+
+/* Items Preview */
+.modal-items-summary {
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fafafa;
+  margin-bottom: 20px;
+}
+
+.items-summary-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.items-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.items-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #334155;
+}
+
+.item-name-qty {
+  font-weight: 500;
+}
+
+.item-row-price {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Actions Group */
+.modal-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-track-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.action-whatsapp-btn {
+  width: 100%;
+  background: #25d366;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.action-whatsapp-btn:hover {
+  background: #20ba5a;
+}
+
+.action-print-btn {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.action-print-btn:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .payment-success-modal-overlay,
+  .payment-success-modal-card,
+  .payment-success-modal-card * {
+    visibility: visible;
+  }
+  .payment-success-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+  }
+  .modal-close-btn,
+  .modal-actions-container {
+    display: none !important;
+  }
+}

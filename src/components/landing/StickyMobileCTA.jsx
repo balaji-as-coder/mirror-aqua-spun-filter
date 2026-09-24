@@ -1,11 +1,11 @@
 import React from 'react';
-import { Zap, MessageCircle } from 'lucide-react';
+import { Zap, MessageCircle, ShoppingBag } from 'lucide-react';
 import { useCart } from '../../context/CartContext.jsx';
 import { analytics } from '../../services/analytics.js';
 import './ProductLanding.css';
 
 export function StickyMobileCTA({ product, onNavigate }) {
-  const { addItem } = useCart();
+  const { addItem, setIsCartOpen } = useCart();
   const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
 
   const basePrice = product?.price || 199;
@@ -38,6 +38,20 @@ export function StickyMobileCTA({ product, onNavigate }) {
         </div>
 
         <div className="sticky-buttons-group">
+          <button
+            type="button"
+            className="sticky-cart-btn"
+            onClick={() => {
+              if (isOutOfStock) return;
+              addItem(product, 1);
+              setIsCartOpen(true);
+            }}
+            disabled={isOutOfStock}
+            aria-label="Add to Cart"
+          >
+            <ShoppingBag size={18} />
+          </button>
+
           <button
             type="button"
             className="sticky-wa-btn"

@@ -16,9 +16,11 @@ import { wooCommerceService } from '../services/woocommerce.js';
 import { paymentService } from '../services/payment.js';
 import { shippingService } from '../services/shipping.js';
 import { analytics } from '../services/analytics.js';
+import { PaymentSuccessModal } from '../components/modals/PaymentSuccessModal.jsx';
 import './CheckoutPage.css';
 
 export function CheckoutPage({ onNavigate }) {
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const {
     items,
     cartState,
@@ -118,6 +120,7 @@ export function CheckoutPage({ onNavigate }) {
 
       // 5. Update UI & Clear Cart
       setCompletedOrder(orderResponse.order);
+      setIsSuccessModalOpen(true);
       clearCart();
     } catch (err) {
       setCheckoutError(err.message || 'An error occurred during checkout.');
@@ -131,6 +134,12 @@ export function CheckoutPage({ onNavigate }) {
     const shipment = completedOrder.payment?.shipment;
     return (
       <div className="container checkout-success-container">
+        <PaymentSuccessModal
+          isOpen={isSuccessModalOpen}
+          onClose={() => setIsSuccessModalOpen(false)}
+          orderData={completedOrder}
+          onNavigate={onNavigate}
+        />
         <div className="checkout-success-card">
           <div className="success-badge-icon">
             <CheckCircle2 size={44} color="var(--color-success)" />

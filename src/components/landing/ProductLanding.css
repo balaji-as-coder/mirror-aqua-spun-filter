@@ -2335,6 +2335,23 @@
   gap: 8px;
 }
 
+.sticky-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sticky-cart-btn:hover {
+  background: #e2e8f0;
+}
+
 .sticky-wa-btn {
   display: inline-flex;
   align-items: center;

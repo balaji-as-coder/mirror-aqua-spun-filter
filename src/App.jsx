@@ -11,6 +11,7 @@ import { ProductLandingPage } from './components/landing/ProductLandingPage.jsx'
 import { CheckoutPage } from './pages/CheckoutPage.jsx';
 import { AccountPage } from './pages/AccountPage.jsx';
 import { VideoTutorialPage } from './pages/VideoTutorialPage.jsx';
+import { TrackOrderPage } from './pages/TrackOrderPage.jsx';
 import { FAQPage, ShippingInfoPage, LegalPage } from './pages/StaticPages.jsx';
 
 export function App() {
@@ -58,6 +59,10 @@ export function App() {
 
     if (path === '/checkout') {
       return <CheckoutPage onNavigate={navigate} />;
+    }
+
+    if (path === '/track' || path === '/track-order') {
+      return <TrackOrderPage onNavigate={navigate} />;
     }
 
     if (path === '/my-account') {

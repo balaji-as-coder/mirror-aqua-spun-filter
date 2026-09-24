@@ -76,6 +76,7 @@ export function Footer({ onNavigate }) {
           <div className="footer-col">
             <h4 className="footer-heading">Guides & Trade</h4>
             <ul className="footer-links">
+              <li><a href="/track" onClick={(e) => { e.preventDefault(); onNavigate('/track'); }}>Track Your Order 🚚</a></li>
               <li><a href="/how-to-change-spun-filter" onClick={(e) => { e.preventDefault(); onNavigate('/how-to-change-spun-filter'); }}>Video: How to Change Filter 🎥</a></li>
               <li><a href="#bulk-enquiry" onClick={(e) => { e.preventDefault(); const el = document.getElementById('bulk-enquiry'); if (el) el.scrollIntoView({ behavior: 'smooth' }); else onNavigate('/product/10-inch-5-micron-pp-spun-filter#bulk-enquiry'); }}>Bulk Cartridge Orders (50+)</a></li>
               <li><a href="#dealer-enquiry" onClick={(e) => { e.preventDefault(); const el = document.getElementById('bulk-enquiry'); if (el) el.scrollIntoView({ behavior: 'smooth' }); else onNavigate('/product/10-inch-5-micron-pp-spun-filter#bulk-enquiry'); }}>Dealer Onboarding</a></li>
