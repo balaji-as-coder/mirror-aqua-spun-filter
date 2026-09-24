@@ -72,7 +72,7 @@ export function ProblemSection() {
               <div>
                 <strong>Important Technical Clarity:</strong>
                 <p>
-                  PP spun filters are mechanical sediment filters designed exclusively for physical suspended-particle reduction. They do not remove dissolved salts (TDS) or destroy bacteria/viruses. Complete water safety is achieved when combined with carbon, RO, and UV purification stages.
+                  PP spun filters are mechanical sediment filters designed exclusively for physical suspended-particle reduction (sand, silt, mud, and pipe rust). They protect internal purification equipment by capturing coarse particulates at the primary pre-filtration stage.
                 </p>
               </div>
             </div>

@@ -32,10 +32,10 @@ export function VideoTutorialPage({ onNavigate }) {
   };
 
   const steps = [
-    { num: 1, title: 'Shut Off Raw Water Feed', desc: 'Turn off the inlet water diverter valve feeding raw water into your 10-inch pre-filter housing bowl.' },
-    { num: 2, title: 'Relieve Housing Pressure', desc: 'Open a downstream tap or press the pressure release red button on the housing head to depressurize the bowl.' },
-    { num: 3, title: 'Unscrew Pre-Filter Bowl', desc: 'Fit the housing spanner wrench over the bowl ribs and turn counter-clockwise (left) to loosen and detach.' },
-    { num: 4, title: 'Remove Old Sediment Cartridge', desc: 'Take out the dirty brown sediment filter. Rinse and wipe the inside of the housing bowl clean.' },
+    { num: 1, title: 'Shut Off Raw Water Feed', desc: 'Turn off the inlet water diverter valve feeding raw water into your 10-inch pre-filter bowl.' },
+    { num: 2, title: 'Relieve Pressure', desc: 'Open a downstream tap or press the pressure release red button on the bowl head to depressurize the pre-filter bowl.' },
+    { num: 3, title: 'Unscrew Pre-Filter Bowl', desc: 'Fit the spanner wrench over the bowl ribs and turn counter-clockwise (left) to loosen and detach.' },
+    { num: 4, title: 'Remove Old Sediment Cartridge', desc: 'Take out the dirty brown sediment filter. Rinse and wipe the inside of the pre-filter bowl clean.' },
     { num: 5, title: 'Insert New 5-Micron PP Filter', desc: 'Unwrap the genuine Mirror Aqua 10-Inch PP Spun filter and seat it vertically onto the center bottom guide.' },
     { num: 6, title: 'Check O-Ring & Tighten', desc: 'Ensure the rubber O-ring seal is seated evenly in its groove. Hand-tighten the bowl firmly onto the head.' },
     { num: 7, title: 'Reopen Water & Inspect Leaks', desc: 'Slowly reopen the inlet water valve to let the bowl fill. Inspect all threads and tube push-fittings for leaks.' }
@@ -54,7 +54,7 @@ export function VideoTutorialPage({ onNavigate }) {
             How to Change the Spun Filter
           </h1>
           <p className="video-page-subtitle">
-            Watch our step-by-step masterclass on how to safely replace a 10-inch PP spun sediment filter in your RO water purifier pre-filter housing bowl.
+            Watch our step-by-step masterclass on how to safely replace a 10-inch PP spun sediment filter in your water purifier pre-filter bowl.
           </p>
         </div>
       </section>

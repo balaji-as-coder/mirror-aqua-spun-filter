@@ -207,10 +207,10 @@ class AnalyticsService {
     });
   }
 
-  trackCompatibilityEnquiry(purifierModel, housingType) {
+  trackCompatibilityEnquiry(purifierModel, bowlType) {
     this.trackEvent('compatibility_enquiry', {
       purifier_model: purifierModel,
-      housing_type: housingType
+      bowl_type: bowlType
     });
   }
 
