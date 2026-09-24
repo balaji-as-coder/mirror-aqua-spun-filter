@@ -31,8 +31,20 @@ export const PRODUCTS = [
     // Configured Commercial Pack Tiers
     packTiers: [
       {
+        id: 'sample',
         quantity: 1,
-        label: '1 Piece',
+        label: '1-Piece Quality Sample',
+        unitPrice: 10,
+        totalPrice: 10,
+        mrpTotal: 399,
+        savingsPercent: 97,
+        badge: '⚡ 15h Flash Trial • ₹10 Only',
+        isSample: true
+      },
+      {
+        id: 'single',
+        quantity: 1,
+        label: '1 Piece (Standard)',
         unitPrice: 199,
         totalPrice: 199,
         mrpTotal: 399,
@@ -40,6 +52,7 @@ export const PRODUCTS = [
         badge: 'Standard'
       },
       {
+        id: 'pack-10',
         quantity: 10,
         label: '10 Pieces (Value Pack)',
         unitPrice: 180,

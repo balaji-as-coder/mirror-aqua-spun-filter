@@ -303,16 +303,114 @@
   text-decoration: underline;
 }
 
-.pack-options-grid-2 {
+/* 15-Hour Flash Sample Offer Ribbon */
+.sample-flash-banner {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border: 1.5px solid #fed7aa;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08);
+  animation: flashPulse 3s infinite ease-in-out;
+}
+
+@keyframes flashPulse {
+  0%, 100% {
+    border-color: #fed7aa;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08);
+  }
+  50% {
+    border-color: #f97316;
+    box-shadow: 0 4px 16px rgba(234, 88, 12, 0.2);
+  }
+}
+
+.flash-banner-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.flash-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ea580c;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.5px;
+}
+
+.icon-flame {
+  color: #fef08a;
+}
+
+.flash-timer-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  color: #c2410c;
+  border: 1px solid #fdba74;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 800;
+  font-family: monospace;
+}
+
+.flash-banner-text {
+  font-size: 12.5px;
+  color: #7c2d12;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pack-options-grid-presets {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
 }
 
 @media (min-width: 540px) {
-  .pack-options-grid-2 {
+  .pack-options-grid-presets {
     grid-template-columns: 1fr 1fr;
   }
+  .pack-options-grid-presets.has-sample {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
+}
+
+.sample-pack-card {
+  border-color: #fdba74 !important;
+  background: linear-gradient(180deg, #fffaf5 0%, #ffffff 100%) !important;
+}
+
+.sample-pack-card.selected {
+  border-color: #ea580c !important;
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2), 0 8px 20px rgba(234, 88, 12, 0.1) !important;
+}
+
+.sample-pack-card.selected .pack-radio-circle {
+  border-color: #ea580c !important;
+  background: #ea580c !important;
+}
+
+.sample-badge {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%) !important;
+  box-shadow: 0 2px 6px rgba(234, 88, 12, 0.35) !important;
+}
+
+.flash-price {
+  color: #ea580c !important;
+  font-weight: 900 !important;
 }
 
 .pack-card-hero {

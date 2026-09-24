@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ShoppingBag, Zap, MessageCircle, ShieldCheck, CheckCircle2, Truck, Star, MapPin, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ShoppingBag, Zap, MessageCircle, ShieldCheck, CheckCircle2, Truck, Star, MapPin, Check, Clock, Flame } from 'lucide-react';
 import { ProductGallery } from './ProductGallery.jsx';
 import { useCart } from '../../context/CartContext.jsx';
 import { analytics } from '../../services/analytics.js';
@@ -9,30 +9,80 @@ export function ProductHero({ product, onNavigate }) {
   const { addItem, setIsCartOpen } = useCart();
   const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
 
+  // 15-Hour Flash Sample Offer Timer State
+  const [selectedPackType, setSelectedPackType] = useState('sample'); // 'sample' | 'single' | 'bulk' | 'custom'
+  const [sampleTimeLeft, setSampleTimeLeft] = useState(() => {
+    if (typeof window === 'undefined') return 15 * 3600 * 1000;
+    const stored = localStorage.getItem('mirror_aqua_sample_expiry');
+    const now = Date.now();
+    if (stored) {
+      const exp = parseInt(stored, 10);
+      if (exp > now) return exp - now;
+    }
+    const newExp = now + 15 * 60 * 60 * 1000; // 15 hours from now
+    localStorage.setItem('mirror_aqua_sample_expiry', newExp.toString());
+    return 15 * 60 * 60 * 1000;
+  });
+
+  const isSampleActive = sampleTimeLeft > 0;
+
+  useEffect(() => {
+    if (!isSampleActive) return;
+    const interval = setInterval(() => {
+      const stored = localStorage.getItem('mirror_aqua_sample_expiry');
+      if (stored) {
+        const remaining = parseInt(stored, 10) - Date.now();
+        if (remaining <= 0) {
+          setSampleTimeLeft(0);
+          if (selectedPackType === 'sample') {
+            setSelectedPackType('single');
+            setQuantity(1);
+          }
+          clearInterval(interval);
+        } else {
+          setSampleTimeLeft(remaining);
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isSampleActive, selectedPackType]);
+
+  // Format countdown clock HH:MM:SS
+  const formatTimer = (ms) => {
+    const totalSec = Math.floor(ms / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    return `${String(h).padStart(2, '0')}h : ${String(m).padStart(2, '0')}m : ${String(s).padStart(2, '0')}s`;
+  };
+
   // Custom Quantity State (Default: 1)
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState('');
   const [pincodeStatus, setPincodeStatus] = useState(null);
 
   // Dynamic Pricing Calculation
-  // Tier: <10 pieces = ₹199/pc (MRP ₹399/pc), >=10 pieces = ₹180/pc (MRP ₹399/pc)
-  const isBulkRate = quantity >= 10;
-  const unitPrice = isBulkRate ? 180 : 199;
+  // Sample: ₹10 (MRP ₹399), Single <10 pieces: ₹199/pc (MRP ₹399/pc), >=10 pieces: ₹180/pc (MRP ₹399/pc)
+  const isSampleSelected = isSampleActive && selectedPackType === 'sample';
+  const isBulkRate = !isSampleSelected && (selectedPackType === 'bulk' || quantity >= 10);
+  const unitPrice = isSampleSelected ? 10 : (isBulkRate ? 180 : 199);
   const unitMrp = 399;
-  const currentPrice = quantity * unitPrice;
-  const currentMrp = quantity * unitMrp;
+  const currentPrice = isSampleSelected ? 10 : (quantity * unitPrice);
+  const currentMrp = isSampleSelected ? 399 : (quantity * unitMrp);
   const totalSavings = currentMrp - currentPrice;
   const savingsPercent = Math.round(((currentMrp - currentPrice) / currentMrp) * 100);
 
   const isOutOfStock = product?.stockStatus === 'outofstock' || product?.stock === 0;
 
-  const handlePresetSelect = (presetQty) => {
+  const handlePresetSelect = (presetQty, packType = 'custom') => {
+    setSelectedPackType(packType);
     setQuantity(presetQty);
     analytics.trackQuantitySelect(product, presetQty, `${presetQty} Piece(s)`);
   };
 
   const handleQuantityChange = (newQty) => {
     const val = Math.max(1, Math.min(500, parseInt(newQty, 10) || 1));
+    setSelectedPackType('custom');
     setQuantity(val);
     analytics.trackQuantitySelect(product, val, `Custom ${val} Units`);
   };
@@ -42,10 +92,16 @@ export function ProductHero({ product, onNavigate }) {
     const itemToAdd = {
       ...product,
       price: unitPrice,
-      selectedPack: `${quantity} Piece${quantity > 1 ? 's' : ''}`
+      sku: isSampleSelected ? 'MA-PP-10-SAMPLE' : product.sku,
+      name: isSampleSelected
+        ? 'Mirror Aqua 10" PP Spun Filter (1-Piece Quality Sample)'
+        : product.name,
+      selectedPack: isSampleSelected
+        ? '1-Piece Quality Sample (⚡ ₹10 Flash Offer)'
+        : `${quantity} Piece${quantity > 1 ? 's' : ''}`
     };
-    addItem(itemToAdd, quantity);
-    analytics.trackAddToCart(itemToAdd, quantity);
+    addItem(itemToAdd, isSampleSelected ? 1 : quantity);
+    analytics.trackAddToCart(itemToAdd, isSampleSelected ? 1 : quantity);
     setIsCartOpen(true);
   };
 
@@ -54,16 +110,24 @@ export function ProductHero({ product, onNavigate }) {
     const itemToAdd = {
       ...product,
       price: unitPrice,
-      selectedPack: `${quantity} Piece${quantity > 1 ? 's' : ''}`
+      sku: isSampleSelected ? 'MA-PP-10-SAMPLE' : product.sku,
+      name: isSampleSelected
+        ? 'Mirror Aqua 10" PP Spun Filter (1-Piece Quality Sample)'
+        : product.name,
+      selectedPack: isSampleSelected
+        ? '1-Piece Quality Sample (⚡ ₹10 Flash Offer)'
+        : `${quantity} Piece${quantity > 1 ? 's' : ''}`
     };
-    addItem(itemToAdd, quantity);
-    analytics.trackBuyNow(itemToAdd, quantity);
+    addItem(itemToAdd, isSampleSelected ? 1 : quantity);
+    analytics.trackBuyNow(itemToAdd, isSampleSelected ? 1 : quantity);
     onNavigate('/checkout');
   };
 
   const handleWhatsAppOrder = () => {
-    analytics.trackWhatsAppClick('hero_order_btn', product, quantity);
-    const text = `Hello Mirror Aqua,\n\nI want to order:\n\n• Product: ${product?.name || '10-Inch 5-Micron PP Spun Filter'}\n• Quantity: ${quantity} Piece${quantity > 1 ? 's' : ''} (${isBulkRate ? '₹180/pc Value Rate' : '₹199/pc Standard'})\n• Total Amount: ₹${currentPrice.toLocaleString('en-IN')}\n\nPlease confirm stock availability and express dispatch to my pincode.`;
+    analytics.trackWhatsAppClick('hero_order_btn', product, isSampleSelected ? 1 : quantity);
+    const text = isSampleSelected
+      ? `Hello Mirror Aqua,\n\nI want to claim the 15-Hour Flash Trial:\n• Product: Mirror Aqua 10-Inch 5-Micron PP Spun Filter (1-Piece Quality Sample)\n• Flash Trial Price: ₹10/- (MRP ₹399 • 97% OFF)\n\nPlease confirm delivery availability.`
+      : `Hello Mirror Aqua,\n\nI want to order:\n\n• Product: ${product?.name || '10-Inch 5-Micron PP Spun Filter'}\n• Quantity: ${quantity} Piece${quantity > 1 ? 's' : ''} (${isBulkRate ? '₹180/pc Value Rate' : '₹199/pc Standard'})\n• Total Amount: ₹${currentPrice.toLocaleString('en-IN')}\n\nPlease confirm stock availability and express dispatch to my pincode.`;
     window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -126,6 +190,25 @@ export function ProductHero({ product, onNavigate }) {
             <span className="hero-badge badge-slate">Made in India</span>
           </div>
 
+          {/* 15-Hour Flash Trial Offer Ribbon */}
+          {isSampleActive && (
+            <div className="sample-flash-banner">
+              <div className="flash-banner-top">
+                <div className="flash-badge-pill">
+                  <Flame size={14} className="icon-flame" />
+                  <span>15-HOUR FLASH TRIAL OFFER</span>
+                </div>
+                <div className="flash-timer-display">
+                  <Clock size={13} />
+                  <span>{formatTimer(sampleTimeLeft)} left</span>
+                </div>
+              </div>
+              <p className="flash-banner-text">
+                Experience Mirror Aqua melt-blown quality firsthand: <strong>Get 1 Sample Filter for just ₹10/-</strong> (Offer disappears when timer expires).
+              </p>
+            </div>
+          )}
+
           {/* Pricing Glass Card */}
           <div className="hero-price-block">
             <div className="price-main-row">
@@ -144,7 +227,9 @@ export function ProductHero({ product, onNavigate }) {
             </div>
 
             <p className="price-unit-note">
-              {quantity === 1 ? (
+              {isSampleSelected ? (
+                <>⚡ <strong>15-Hour Experience Trial:</strong> Single sample cartridge for <strong>₹10 only</strong> (Includes all taxes • Limit 1 per customer)</>
+              ) : quantity === 1 ? (
                 <>Single cartridge pack • <strong>₹199 / piece</strong> (Includes all taxes)</>
               ) : (
                 <>Unit price: <strong>₹{unitPrice} per piece</strong> for {quantity} units • Total savings: <strong>₹{totalSavings.toLocaleString('en-IN')}</strong></>
@@ -172,15 +257,39 @@ export function ProductHero({ product, onNavigate }) {
             </div>
 
             {/* Quick Pack Preset Cards */}
-            <div className="pack-options-grid-2">
+            <div className={`pack-options-grid-presets ${isSampleActive ? 'has-sample' : ''}`}>
+              {/* Option 1: ₹10 Flash Sample (Visible ONLY during 15-Hour Window) */}
+              {isSampleActive && (
+                <button
+                  type="button"
+                  className={`pack-card-hero sample-pack-card ${isSampleSelected ? 'selected' : ''}`}
+                  onClick={() => handlePresetSelect(1, 'sample')}
+                >
+                  <span className="pack-badge-hero sample-badge">
+                    ⚡ 15h Flash Trial • ₹10 Only
+                  </span>
+                  <div className="pack-card-top">
+                    <div className="pack-radio-circle">
+                      {isSampleSelected && <div className="pack-radio-inner" />}
+                    </div>
+                    <span className="pack-name-hero">1-Pc Quality Sample</span>
+                    <span className="pack-price-hero flash-price">₹10</span>
+                  </div>
+                  <div className="pack-sub-info">
+                    <span>Experience Trial • ₹10/pc • <strong>97% OFF</strong></span>
+                  </div>
+                </button>
+              )}
+
+              {/* Option 2: 1 Piece Standard ₹199 */}
               <button
                 type="button"
-                className={`pack-card-hero ${quantity === 1 ? 'selected' : ''}`}
-                onClick={() => handlePresetSelect(1)}
+                className={`pack-card-hero ${selectedPackType === 'single' && quantity === 1 ? 'selected' : ''}`}
+                onClick={() => handlePresetSelect(1, 'single')}
               >
                 <div className="pack-card-top">
                   <div className="pack-radio-circle">
-                    {quantity === 1 && <div className="pack-radio-inner" />}
+                    {selectedPackType === 'single' && quantity === 1 && <div className="pack-radio-inner" />}
                   </div>
                   <span className="pack-name-hero">1 Piece (Standard)</span>
                   <span className="pack-price-hero">₹199</span>
@@ -190,17 +299,18 @@ export function ProductHero({ product, onNavigate }) {
                 </div>
               </button>
 
+              {/* Option 3: 10 Pieces Value Pack ₹1,800 */}
               <button
                 type="button"
-                className={`pack-card-hero ${quantity === 10 ? 'selected' : ''}`}
-                onClick={() => handlePresetSelect(10)}
+                className={`pack-card-hero ${selectedPackType === 'bulk' || quantity === 10 ? 'selected' : ''}`}
+                onClick={() => handlePresetSelect(10, 'bulk')}
               >
                 <span className="pack-badge-hero popular-badge">
                   ⭐ Best Value • Save ₹2,190
                 </span>
                 <div className="pack-card-top">
                   <div className="pack-radio-circle">
-                    {quantity === 10 && <div className="pack-radio-inner" />}
+                    {(selectedPackType === 'bulk' || quantity === 10) && <div className="pack-radio-inner" />}
                   </div>
                   <span className="pack-name-hero">10 Pieces (Value Pack)</span>
                   <span className="pack-price-hero">₹1,800</span>
