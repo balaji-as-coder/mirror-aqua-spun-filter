@@ -7,7 +7,7 @@ export function HowItWorks() {
     {
       number: '1',
       title: 'Incoming Raw Water',
-      desc: 'Raw water from municipal supply or borewells enters the pre-filter housing with suspended dirt, silt, and rust.',
+      desc: 'Raw water from municipal supply or borewells enters the pre-filter bowl with suspended dirt, silt, and rust.',
       tag: 'Raw Tap / Borewell Feed'
     },
     {
