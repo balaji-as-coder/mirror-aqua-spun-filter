@@ -81,7 +81,7 @@ export function ProductLandingPage({ slug = '10-inch-5-micron-pp-spun-filter', o
           },
           "offers": {
             "@type": "Offer",
-            "url": `https://mirroraqua.in/product/${product.slug}/`,
+            "url": `https://spunfilter.mirrorsolarvision.com/`,
             "priceCurrency": "INR",
             "price": product.price,
             "priceValidUntil": "2027-12-31",
@@ -112,19 +112,19 @@ export function ProductLandingPage({ slug = '10-inch-5-micron-pp-spun-filter', o
               "@type": "ListItem",
               "position": 1,
               "name": "Mirror Aqua",
-              "item": "https://mirroraqua.in/"
+              "item": "https://spunfilter.mirrorsolarvision.com/"
             },
             {
               "@type": "ListItem",
               "position": 2,
               "name": product.category || "Sediment Filter",
-              "item": "https://mirroraqua.in/shop"
+              "item": "https://spunfilter.mirrorsolarvision.com/"
             },
             {
               "@type": "ListItem",
               "position": 3,
               "name": product.name,
-              "item": `https://mirroraqua.in/product/${product.slug}/`
+              "item": `https://spunfilter.mirrorsolarvision.com/`
             }
           ]
         }

@@ -390,7 +390,7 @@ export function CheckoutPage({ onNavigate }) {
                   />
                   <div className="shipping-radio-info">
                     <strong>Standard Delivery (3-5 business days)</strong>
-                    <span>Plastic-free honeycomb cushioning</span>
+                    <span>Moisture-sealed protective packaging</span>
                   </div>
                   <span className="shipping-radio-price">
                     {cartState.subtotal >= 2500 ? 'FREE' : '₹150'}
@@ -407,7 +407,7 @@ export function CheckoutPage({ onNavigate }) {
                   />
                   <div className="shipping-radio-info">
                     <strong>Express Air Delivery (1-2 business days)</strong>
-                    <span>Priority dispatch + custom gift packaging</span>
+                    <span>Priority dispatch + express courier delivery</span>
                   </div>
                   <span className="shipping-radio-price">₹350</span>
                 </label>

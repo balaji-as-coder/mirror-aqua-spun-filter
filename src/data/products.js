@@ -187,19 +187,19 @@ export const PRODUCTS = [
 
     // SEO Meta
     seo: {
-      title: '5 Micron PP Spun Filter (10-Inch) | Genuine RO Spares | Mirror Aqua',
-      description: 'Buy Mirror Aqua 10-inch 5-micron PP spun sediment filter made from 100% pure polypropylene. ₹199 for single piece, ₹1,800 for 10-pack. Pan-India fast dispatch.',
+      title: 'Mirror Aqua 10-Inch 5-Micron PP Spun Filter | High-Performance Sediment Filtration',
+      description: 'Buy Mirror Aqua 10-inch 5-micron PP spun sediment filter made from 100% virgin polypropylene. ₹199 single piece, ₹1,800 10-pack, ₹10 flash sample. Pan-India express dispatch.',
       keywords: [
         '5 micron PP spun filter',
         '10 inch PP spun filter',
         'PP spun sediment filter',
-        'RO sediment filter',
+        '10 inch sediment filter',
         '5 micron sediment filter',
-        'RO PP filter',
         'water purifier sediment filter',
-        '10 inch sediment filter'
+        'melt blown PP cartridge',
+        'pre filter sediment cartridge'
       ],
-      canonicalUrl: 'https://mirroraqua.in/product/10-inch-5-micron-pp-spun-filter/'
+      canonicalUrl: 'https://spunfilter.mirrorsolarvision.com/'
     }
   }
 ];

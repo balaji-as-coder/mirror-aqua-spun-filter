@@ -81,7 +81,7 @@ export function VideoTutorialPage({ onNavigate }) {
               <div>
                 <h3 className="yt-card-title">Subscribe to Mirror Aqua on YouTube</h3>
                 <p className="yt-card-sub">
-                  Get instant notifications for RO maintenance guides, spare part compatibility tips, and filter installation demos.
+                  Get instant notifications for water purifier maintenance guides, pre-filter bowl compatibility tips, and filter replacement demos.
                 </p>
               </div>
             </div>
