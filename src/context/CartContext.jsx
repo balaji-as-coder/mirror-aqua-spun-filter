@@ -52,20 +52,31 @@ export function CartProvider({ children }) {
   }, [items, couponCode, shippingMethod, refreshCart]);
 
   const addToCart = (product, quantity = 1) => {
+    const itemKey = `${product.id || 'prod'}-${product.sku || 'sku'}-${product.price || 199}`;
     setItems(prev => {
-      const existing = prev.find(item => item.productId === product.id);
+      const existing = prev.find(item => item.itemKey === itemKey || item.productId === (product.id || itemKey));
       if (existing) {
         return prev.map(item =>
-          item.productId === product.id
-            ? { ...item, quantity: item.quantity + quantity }
+          (item.itemKey === itemKey || item.productId === (product.id || itemKey))
+            ? { ...item, quantity: item.quantity + quantity, product: { ...item.product, ...product } }
             : item
         );
       }
-      return [...prev, { productId: product.id, quantity, product }];
+      return [...prev, {
+        itemKey,
+        productId: product.id || itemKey,
+        quantity,
+        unitPrice: product.price,
+        product
+      }];
     });
 
     analytics.trackAddToCart(product, quantity);
     setIsCartOpen(true);
+  };
+
+  const addItem = (product, quantity = 1) => {
+    addToCart(product, quantity);
   };
 
   const updateQuantity = (productId, newQuantity) => {
@@ -75,17 +86,19 @@ export function CartProvider({ children }) {
     }
     setItems(prev =>
       prev.map(item =>
-        item.productId === productId ? { ...item, quantity: newQuantity } : item
+        (item.productId === productId || item.itemKey === productId)
+          ? { ...item, quantity: newQuantity }
+          : item
       )
     );
   };
 
   const removeFromCart = (productId) => {
-    const itemToRemove = items.find(item => item.productId === productId);
+    const itemToRemove = items.find(item => item.productId === productId || item.itemKey === productId);
     if (itemToRemove && itemToRemove.product) {
       analytics.trackRemoveFromCart(itemToRemove.product, itemToRemove.quantity);
     }
-    setItems(prev => prev.filter(item => item.productId !== productId));
+    setItems(prev => prev.filter(item => item.productId !== productId && item.itemKey !== productId));
   };
 
   const applyCoupon = (code) => {
@@ -112,6 +125,7 @@ export function CartProvider({ children }) {
         isCartOpen,
         setIsCartOpen,
         addToCart,
+        addItem,
         updateQuantity,
         removeFromCart,
         applyCoupon,

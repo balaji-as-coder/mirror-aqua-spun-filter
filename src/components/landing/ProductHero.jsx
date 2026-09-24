@@ -6,7 +6,7 @@ import { analytics } from '../../services/analytics.js';
 import './ProductLanding.css';
 
 export function ProductHero({ product, onNavigate }) {
-  const { addItem, setIsCartOpen } = useCart();
+  const { addToCart, addItem, setIsCartOpen } = useCart();
   const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
 
   // 15-Hour Flash Sample Offer Timer State
@@ -89,36 +89,44 @@ export function ProductHero({ product, onNavigate }) {
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
+    const addFn = addToCart || addItem;
     const itemToAdd = {
       ...product,
+      id: isSampleSelected ? 'ma-prod-sample' : (product?.id || 'ma-prod-001'),
       price: unitPrice,
-      sku: isSampleSelected ? 'MA-PP-10-SAMPLE' : product.sku,
+      sku: isSampleSelected ? 'MA-PP-10-SAMPLE' : (product?.sku || 'MA-PP-10-05M'),
       name: isSampleSelected
         ? 'Mirror Aqua 10" PP Spun Filter (1-Piece Quality Sample)'
-        : product.name,
+        : (product?.name || 'Mirror Aqua 10-Inch 5-Micron PP Spun Filter'),
       selectedPack: isSampleSelected
         ? '1-Piece Quality Sample (⚡ ₹10 Flash Offer)'
         : `${quantity} Piece${quantity > 1 ? 's' : ''}`
     };
-    addItem(itemToAdd, isSampleSelected ? 1 : quantity);
+    if (typeof addFn === 'function') {
+      addFn(itemToAdd, isSampleSelected ? 1 : quantity);
+    }
     analytics.trackAddToCart(itemToAdd, isSampleSelected ? 1 : quantity);
-    setIsCartOpen(true);
+    if (setIsCartOpen) setIsCartOpen(true);
   };
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
+    const addFn = addToCart || addItem;
     const itemToAdd = {
       ...product,
+      id: isSampleSelected ? 'ma-prod-sample' : (product?.id || 'ma-prod-001'),
       price: unitPrice,
-      sku: isSampleSelected ? 'MA-PP-10-SAMPLE' : product.sku,
+      sku: isSampleSelected ? 'MA-PP-10-SAMPLE' : (product?.sku || 'MA-PP-10-05M'),
       name: isSampleSelected
         ? 'Mirror Aqua 10" PP Spun Filter (1-Piece Quality Sample)'
-        : product.name,
+        : (product?.name || 'Mirror Aqua 10-Inch 5-Micron PP Spun Filter'),
       selectedPack: isSampleSelected
         ? '1-Piece Quality Sample (⚡ ₹10 Flash Offer)'
         : `${quantity} Piece${quantity > 1 ? 's' : ''}`
     };
-    addItem(itemToAdd, isSampleSelected ? 1 : quantity);
+    if (typeof addFn === 'function') {
+      addFn(itemToAdd, isSampleSelected ? 1 : quantity);
+    }
     analytics.trackBuyNow(itemToAdd, isSampleSelected ? 1 : quantity);
     onNavigate('/checkout');
   };

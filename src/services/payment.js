@@ -113,8 +113,9 @@ export class PaymentService {
 
     // 3. Open Official Razorpay Checkout Modal
     return new Promise((resolve, reject) => {
+      const liveKey = serverOrder.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_Tfvc73Xs6tShFL';
       const options = {
-        key: serverOrder.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder_key_id',
+        key: liveKey,
         amount: serverOrder.amount,
         currency: serverOrder.currency || 'INR',
         name: 'MIRROR AQUA',

@@ -5,7 +5,7 @@ import { analytics } from '../../services/analytics.js';
 import './ProductLanding.css';
 
 export function StickyMobileCTA({ product, onNavigate }) {
-  const { addItem, setIsCartOpen } = useCart();
+  const { addToCart, addItem, setIsCartOpen } = useCart();
   const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
 
   const basePrice = product?.price || 199;
@@ -13,9 +13,38 @@ export function StickyMobileCTA({ product, onNavigate }) {
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
-    addItem(product, 1);
-    analytics.trackBuyNow(product, 1);
+    const addFn = addToCart || addItem;
+    const itemToAdd = {
+      ...product,
+      id: product?.id || 'ma-prod-001',
+      price: basePrice,
+      sku: product?.sku || 'MA-PP-10-05M',
+      name: product?.name || 'Mirror Aqua 10-Inch 5-Micron PP Spun Filter',
+      selectedPack: '1 Piece (Standard)'
+    };
+    if (typeof addFn === 'function') {
+      addFn(itemToAdd, 1);
+    }
+    analytics.trackBuyNow(itemToAdd, 1);
     onNavigate('/checkout');
+  };
+
+  const handleAddToCart = () => {
+    if (isOutOfStock) return;
+    const addFn = addToCart || addItem;
+    const itemToAdd = {
+      ...product,
+      id: product?.id || 'ma-prod-001',
+      price: basePrice,
+      sku: product?.sku || 'MA-PP-10-05M',
+      name: product?.name || 'Mirror Aqua 10-Inch 5-Micron PP Spun Filter',
+      selectedPack: '1 Piece (Standard)'
+    };
+    if (typeof addFn === 'function') {
+      addFn(itemToAdd, 1);
+    }
+    analytics.trackAddToCart(itemToAdd, 1);
+    if (setIsCartOpen) setIsCartOpen(true);
   };
 
   const handleWhatsApp = () => {
@@ -41,11 +70,7 @@ export function StickyMobileCTA({ product, onNavigate }) {
           <button
             type="button"
             className="sticky-cart-btn"
-            onClick={() => {
-              if (isOutOfStock) return;
-              addItem(product, 1);
-              setIsCartOpen(true);
-            }}
+            onClick={handleAddToCart}
             disabled={isOutOfStock}
             aria-label="Add to Cart"
           >

@@ -20,13 +20,13 @@ const WC_STORE_URL = process.env.WC_STORE_URL || '';
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY || '';
 const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET || '';
 
-const RAZORPAY_MODE = process.env.RAZORPAY_MODE || 'test'; // 'test' | 'live'
-const RAZORPAY_KEY_ID = process.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder';
-const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
+const RAZORPAY_MODE = process.env.RAZORPAY_MODE || 'live'; // 'test' | 'live'
+const RAZORPAY_KEY_ID = process.env.VITE_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID || 'rzp_live_Tfvc73Xs6tShFL';
+const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || 'IhPrT0tYRB855EGRhds8q9bb';
 
-const SHIPROCKET_EMAIL = process.env.SHIPROCKET_EMAIL || '';
-const SHIPROCKET_PASSWORD = process.env.SHIPROCKET_PASSWORD || '';
-const SHIPROCKET_PICKUP_PIN = process.env.SHIPROCKET_PICKUP_PINCODE || '370001';
+const SHIPROCKET_EMAIL = process.env.SHIPROCKET_EMAIL || 'shipping@mirroraqua.in';
+const SHIPROCKET_PASSWORD = process.env.SHIPROCKET_PASSWORD || '!sG5oGb$@b9P%^cruSPFz2Lz2&tD%c^a';
+const SHIPROCKET_PICKUP_PIN = process.env.SHIPROCKET_PICKUP_PINCODE || '380001';
 
 // In-Memory idempotency cache & stores for leads/orders
 const processedPayments = new Map(); // order_id -> verificationResult

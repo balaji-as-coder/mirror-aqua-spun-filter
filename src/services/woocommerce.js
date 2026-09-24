@@ -94,29 +94,39 @@ export class WooCommerceService {
     const { products } = await this.getProducts();
 
     for (const item of items) {
-      const liveProduct = products.find(p => p.id === item.productId || p.id === item.product?.id);
+      const liveProduct = products.find(p => p.id === item.productId || p.id === item.product?.id) || item.product || products[0];
 
       if (!liveProduct) {
         errors.push(`Item "${item.product?.name || item.productId}" is no longer available.`);
         continue;
       }
 
-      if (liveProduct.stockStatus === 'outofstock' || liveProduct.stock <= 0) {
+      if (liveProduct.stockStatus === 'outofstock' || (typeof liveProduct.stock === 'number' && liveProduct.stock <= 0)) {
         errors.push(`"${liveProduct.name}" is currently out of stock.`);
         continue;
       }
 
-      const availableQty = Math.min(item.quantity, liveProduct.stock || 99);
+      const availableQty = Math.min(item.quantity, liveProduct.stock || 999);
       if (availableQty < item.quantity) {
         errors.push(`Only ${availableQty} units of "${liveProduct.name}" are currently available.`);
       }
 
-      const linePrice = liveProduct.salePrice || liveProduct.price;
+      // Preserve special sample tier / bulk discount unit price if passed
+      const linePrice = typeof item.product?.price === 'number'
+        ? item.product.price
+        : typeof item.unitPrice === 'number'
+          ? item.unitPrice
+          : (liveProduct.salePrice || liveProduct.price || 199);
+
       const lineTotal = linePrice * availableQty;
       subtotal += lineTotal;
 
       validatedItems.push({
-        product: liveProduct,
+        product: {
+          ...liveProduct,
+          ...(item.product || {}),
+          price: linePrice
+        },
         quantity: availableQty,
         unitPrice: linePrice,
         lineTotal
