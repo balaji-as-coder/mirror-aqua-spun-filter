@@ -15,7 +15,7 @@ import { analytics } from '../../services/analytics.js';
 import './ProductLanding.css';
 
 export function ProductLandingPage({ slug = '10-inch-5-micron-pp-spun-filter', onNavigate }) {
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
   const [product, setProduct] = useState(() => {
     return PRODUCTS.find(p => p.slug === slug) || PRODUCTS[0];

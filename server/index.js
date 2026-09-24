@@ -640,9 +640,11 @@ app.get('/api/crm/leads', (req, res) => {
   res.json({ success: true, count: leadsDatabase.length, leads: leadsDatabase });
 });
 
-// ==============================================================================
-// START SERVER
-// ==============================================================================
-app.listen(PORT, () => {
-  console.log(`🚀 MIRROR AQUA Secure Backend Integration Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 MIRROR AQUA Secure Backend Integration Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
+
