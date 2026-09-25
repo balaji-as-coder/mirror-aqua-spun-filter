@@ -1,14 +1,46 @@
 /**
  * SHIPPING SERVICE
  * Connects to the backend Shiprocket serviceability endpoint (/api/shipping/check-pincode)
- * Provides real courier estimates and unserviceable location states.
+ * Provides real courier estimates and free shipping logic (100% Free Shipping for AP & TS).
  */
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
+/**
+ * Helper to identify if delivery address is in Andhra Pradesh or Telangana
+ * AP PIN codes start with: 51, 52, 53
+ * TS PIN codes start with: 50
+ * Range: 500000 to 539999
+ */
+export function isFreeShippingRegion(pincode, state) {
+  if (pincode) {
+    const cleanPin = String(pincode).trim();
+    // 50xxxx = Telangana, 51xxxx/52xxxx/53xxxx = Andhra Pradesh
+    if (/^(50|51|52|53)\d{4}$/.test(cleanPin)) {
+      return true;
+    }
+  }
+  if (state) {
+    const cleanState = String(state).trim().toLowerCase();
+    if (
+      cleanState === 'andhra pradesh' ||
+      cleanState === 'ap' ||
+      cleanState === 'andhra' ||
+      cleanState === 'telangana' ||
+      cleanState === 'ts' ||
+      cleanState === 'tg' ||
+      cleanState.includes('andhra') ||
+      cleanState.includes('telangana')
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export class ShippingService {
   constructor() {
-    this.freeShippingThreshold = 2500; // INR
+    this.freeShippingThreshold = 2500; // INR for rest of India
     this.standardShippingFee = 150; // INR
     this.expressShippingFee = 350; // INR
   }
@@ -20,6 +52,8 @@ export class ShippingService {
         message: 'Please enter a valid 6-digit Indian PIN code.'
       };
     }
+
+    const isAPTS = isFreeShippingRegion(pincode);
 
     try {
       const res = await fetch(`${API_BASE}/shipping/check-pincode`, {
@@ -35,6 +69,8 @@ export class ShippingService {
           serviceable: true,
           courierName: data.courierName || 'Standard Courier',
           estimatedDays: data.estimatedDays || '3 to 5 business days',
+          isFreeShipping: isAPTS,
+          regionName: isAPTS ? 'Andhra Pradesh & Telangana' : null,
           source: 'shiprocket_api'
         };
       }
@@ -45,6 +81,8 @@ export class ShippingService {
           serviceable: true,
           courierName: 'Standard Partner',
           estimatedDays: '3 to 5 business days (Standard)',
+          isFreeShipping: isAPTS,
+          regionName: isAPTS ? 'Andhra Pradesh & Telangana' : null,
           source: 'local_estimate'
         };
       }
@@ -58,15 +96,22 @@ export class ShippingService {
         serviceable: true,
         courierName: 'Standard Partner',
         estimatedDays: '3 to 5 business days (Estimated)',
+        isFreeShipping: isAPTS,
+        regionName: isAPTS ? 'Andhra Pradesh & Telangana' : null,
         source: 'local_estimate'
       };
     }
   }
 
-  calculateShipping({ subtotal, method = 'standard' }) {
+  calculateShipping({ subtotal, method = 'standard', pincode = '', state = '' }) {
     if (method === 'express') {
       return this.expressShippingFee;
     }
+    // 100% Free Standard Shipping for Andhra Pradesh & Telangana
+    if (isFreeShippingRegion(pincode, state)) {
+      return 0;
+    }
+    // Pan-India Free Shipping above threshold
     if (subtotal >= this.freeShippingThreshold) {
       return 0; // Free Standard Shipping
     }

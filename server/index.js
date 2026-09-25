@@ -540,6 +540,8 @@ app.post('/api/shipping/check-pincode', async (req, res) => {
     });
   }
 
+  const isAPTS = /^(50|51|52|53)\d{4}$/.test(String(pincode).trim());
+
   const token = await getShiprocketToken();
   if (!token) {
     // Development local estimate when credentials are not configured
@@ -547,7 +549,9 @@ app.post('/api/shipping/check-pincode', async (req, res) => {
       serviceable: true,
       courierName: 'Delhivery / Bluedart / Express',
       estimatedDays: '3-5 business days',
-      rate: 0
+      isFreeShipping: isAPTS,
+      regionName: isAPTS ? 'Andhra Pradesh & Telangana' : null,
+      rate: isAPTS ? 0 : 150
     });
   }
 
@@ -564,7 +568,9 @@ app.post('/api/shipping/check-pincode', async (req, res) => {
         serviceable: true,
         courierName: bestCourier.courier_name,
         estimatedDays: `${bestCourier.estimated_delivery_days || '3-5'} business days`,
-        rate: bestCourier.rate
+        isFreeShipping: isAPTS,
+        regionName: isAPTS ? 'Andhra Pradesh & Telangana' : null,
+        rate: isAPTS ? 0 : bestCourier.rate
       });
     } else {
       res.json({

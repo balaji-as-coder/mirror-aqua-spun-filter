@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, ShieldCheck, Tag } from 'lucide-react';
 import { useCart } from '../../context/CartContext.jsx';
+import { isFreeShippingRegion } from '../../services/shipping.js';
 import { Button, Price } from '../ui/Primitives.jsx';
 import './CartDrawer.css';
 
@@ -8,13 +9,15 @@ export function CartDrawer({ onNavigate }) {
   const {
     isCartOpen,
     setIsCartOpen,
+    items,
     cartState,
     updateQuantity,
     removeFromCart,
     applyCoupon,
     removeCoupon,
     couponCode,
-    isValidating
+    isValidating,
+    deliveryRegion
   } = useCart();
 
   const [inputCoupon, setInputCoupon] = useState('');
@@ -34,6 +37,20 @@ export function CartDrawer({ onNavigate }) {
 
   if (!isCartOpen) return null;
 
+  const displayItems = (cartState.items && cartState.items.length > 0)
+    ? cartState.items
+    : items.map((it, idx) => ({
+        itemKey: it.itemKey || `drawer_item_${idx}`,
+        productId: it.productId || it.product?.id,
+        product: it.product || {},
+        quantity: it.quantity || 1,
+        unitPrice: it.unitPrice || it.product?.price || 199,
+        lineTotal: (it.unitPrice || it.product?.price || 199) * (it.quantity || 1)
+      }));
+
+  const hasItems = displayItems.length > 0;
+  const isAPTS = cartState.isAPTS || isFreeShippingRegion(deliveryRegion?.pincode, deliveryRegion?.state);
+
   return (
     <>
       {/* Backdrop */}
@@ -49,7 +66,7 @@ export function CartDrawer({ onNavigate }) {
         <div className="cart-drawer-header">
           <div className="cart-header-title-wrap">
             <h3 className="cart-header-title">Your Cart</h3>
-            <span className="cart-item-count">({cartState.items?.length || 0} items)</span>
+            <span className="cart-item-count">({displayItems.length} items)</span>
           </div>
           <button
             className="drawer-close-btn"
@@ -62,9 +79,13 @@ export function CartDrawer({ onNavigate }) {
 
         {/* Free Shipping Progress Indicator */}
         <div className="free-shipping-bar-wrap">
-          {cartState.freeShippingRemaining > 0 ? (
+          {isAPTS ? (
+            <p className="shipping-bar-text qualified">
+              🎉 <strong>100% FREE Delivery Unlocked for AP & TS!</strong>
+            </p>
+          ) : cartState.freeShippingRemaining > 0 ? (
             <p className="shipping-bar-text">
-              Add <span className="highlight-amount">₹{cartState.freeShippingRemaining}</span> more for <strong>Free Express Shipping</strong>
+              Add <span className="highlight-amount">₹{cartState.freeShippingRemaining}</span> more for <strong>Free Express Shipping</strong> (FREE for AP & TS!)
             </p>
           ) : (
             <p className="shipping-bar-text qualified">
@@ -75,7 +96,7 @@ export function CartDrawer({ onNavigate }) {
             <div
               className="shipping-progress-fill"
               style={{
-                width: `${Math.min(100, ((2500 - cartState.freeShippingRemaining) / 2500) * 100)}%`
+                width: `${isAPTS ? 100 : Math.min(100, ((2500 - cartState.freeShippingRemaining) / 2500) * 100)}%`
               }}
             />
           </div>
@@ -83,27 +104,27 @@ export function CartDrawer({ onNavigate }) {
 
         {/* Cart Item List / Empty State */}
         <div className="cart-drawer-body">
-          {cartState.items && cartState.items.length > 0 ? (
+          {hasItems ? (
             <div className="cart-items-list">
-              {cartState.items.map((item) => {
-                const itemIdentifier = item.itemKey || item.productId || item.product?.id;
+              {displayItems.map((item, idx) => {
+                const itemIdentifier = item.itemKey || item.productId || item.product?.id || `drawer_${idx}`;
                 return (
-                  <div key={itemIdentifier} className="cart-item-row">
+                  <div key={itemIdentifier || idx} className="cart-item-row">
                     <img
-                      src={item.product.images?.[0]?.url}
-                      alt={item.product.name}
+                      src={item.product?.images?.[0]?.url || '/images/product/spun1.jpeg'}
+                      alt={item.product?.name || 'PP Spun Filter'}
                       className="cart-item-thumb"
                     />
                     <div className="cart-item-details">
-                      <span className="cart-item-craft">{item.product.selectedPack || item.product.category || '10-Inch 5-Micron Sediment Filter'}</span>
+                      <span className="cart-item-craft">{item.product?.selectedPack || item.product?.category || '10-Inch 5-Micron Sediment Filter'}</span>
                       <h4
                         className="cart-item-name"
                         onClick={() => {
                           setIsCartOpen(false);
-                          onNavigate(`/product/${item.product.slug}`);
+                          onNavigate(`/product/${item.product?.slug || '10-inch-5-micron-pp-spun-filter'}`);
                         }}
                       >
-                        {item.product.name}
+                        {item.product?.name || '10" PP Spun Filter'}
                       </h4>
                       <div className="cart-item-price-wrap">
                         <Price price={item.unitPrice} />
@@ -114,7 +135,10 @@ export function CartDrawer({ onNavigate }) {
                           <button
                             type="button"
                             className="qty-btn"
-                            onClick={() => updateQuantity(itemIdentifier, item.quantity - 1)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              updateQuantity(itemIdentifier, item.quantity - 1, idx);
+                            }}
                             aria-label="Decrease Quantity"
                           >
                             <Minus size={13} />
@@ -123,8 +147,11 @@ export function CartDrawer({ onNavigate }) {
                           <button
                             type="button"
                             className="qty-btn"
-                            onClick={() => updateQuantity(itemIdentifier, item.quantity + 1)}
-                            disabled={item.quantity >= (item.product.stock || 999)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              updateQuantity(itemIdentifier, item.quantity + 1, idx);
+                            }}
+                            disabled={item.quantity >= (item.product?.stock || 999)}
                             aria-label="Increase Quantity"
                           >
                             <Plus size={13} />
@@ -134,7 +161,11 @@ export function CartDrawer({ onNavigate }) {
                         <button
                           type="button"
                           className="cart-item-remove-btn"
-                          onClick={() => removeFromCart(itemIdentifier)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            removeFromCart(itemIdentifier, idx);
+                          }}
                           aria-label="Remove item"
                           title="Remove product from cart"
                         >
@@ -167,7 +198,7 @@ export function CartDrawer({ onNavigate }) {
         </div>
 
         {/* Drawer Footer / Summary */}
-        {cartState.items && cartState.items.length > 0 && (
+        {hasItems && (
           <div className="cart-drawer-footer">
             {/* Coupon Section */}
             <div className="coupon-box">
@@ -210,11 +241,16 @@ export function CartDrawer({ onNavigate }) {
               )}
               <div className="summary-row">
                 <span>Estimated Shipping</span>
-                <span>{cartState.shippingFee === 0 ? 'Free' : `₹${cartState.shippingFee}`}</span>
+                <span>{isAPTS ? <strong style={{ color: '#059669' }}>Free (AP & TS)</strong> : cartState.shippingFee === 0 ? 'Free' : `₹${cartState.shippingFee}`}</span>
               </div>
               <div className="summary-row total-row">
                 <strong>Estimated Total</strong>
-                <strong>₹{cartState.grandTotal?.toLocaleString('en-IN')}</strong>
+                <strong>
+                  ₹{(isAPTS
+                    ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                    : cartState.grandTotal
+                  )?.toLocaleString('en-IN')}
+                </strong>
               </div>
             </div>
 

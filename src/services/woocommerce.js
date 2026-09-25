@@ -5,7 +5,7 @@
  */
 
 import { PRODUCTS } from '../data/products.js';
-import { shippingService } from './shipping.js';
+import { shippingService, isFreeShippingRegion } from './shipping.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
@@ -85,7 +85,7 @@ export class WooCommerceService {
   /**
    * Authoritative Cart Validation against WooCommerce catalog & rules.
    */
-  async validateCart(items = [], couponCode = null, shippingMethod = 'standard') {
+  async validateCart(items = [], couponCode = null, shippingMethod = 'standard', deliveryRegion = {}) {
     let subtotal = 0;
     const validatedItems = [];
     const errors = [];
@@ -157,9 +157,13 @@ export class WooCommerceService {
       }
     }
 
+    const isAPTS = isFreeShippingRegion(deliveryRegion?.pincode, deliveryRegion?.state);
+
     const shippingFee = shippingService.calculateShipping({
       subtotal: subtotal - discountAmount,
-      method: shippingMethod
+      method: shippingMethod,
+      pincode: deliveryRegion?.pincode,
+      state: deliveryRegion?.state
     });
 
     const taxAmount = Math.round((subtotal - discountAmount) * 0.05); // Standard GST calculation
@@ -175,8 +179,10 @@ export class WooCommerceService {
       shippingFee,
       taxAmount,
       grandTotal,
+      isAPTS,
+      deliveryRegion,
       freeShippingThreshold: shippingService.freeShippingThreshold,
-      freeShippingRemaining: Math.max(0, shippingService.freeShippingThreshold - (subtotal - discountAmount))
+      freeShippingRemaining: isAPTS ? 0 : Math.max(0, shippingService.freeShippingThreshold - (subtotal - discountAmount))
     };
   }
 

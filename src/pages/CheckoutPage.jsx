@@ -17,7 +17,7 @@ import { useCart } from '../context/CartContext.jsx';
 import { Button, Price } from '../components/ui/Primitives.jsx';
 import { wooCommerceService } from '../services/woocommerce.js';
 import { paymentService } from '../services/payment.js';
-import { shippingService } from '../services/shipping.js';
+import { shippingService, isFreeShippingRegion } from '../services/shipping.js';
 import { analytics } from '../services/analytics.js';
 import { PaymentSuccessModal } from '../components/modals/PaymentSuccessModal.jsx';
 import './CheckoutPage.css';
@@ -34,7 +34,9 @@ export function CheckoutPage({ onNavigate }) {
     removeCoupon,
     clearCart,
     shippingMethod,
-    setShippingMethod
+    setShippingMethod,
+    deliveryRegion,
+    setDeliveryRegion
   } = useCart();
 
   // Customer Form State
@@ -45,8 +47,8 @@ export function CheckoutPage({ onNavigate }) {
     address: '',
     apartment: '',
     city: '',
-    state: '',
-    pincode: '',
+    state: deliveryRegion?.state || '',
+    pincode: deliveryRegion?.pincode || '',
     notes: ''
   });
 
@@ -56,18 +58,33 @@ export function CheckoutPage({ onNavigate }) {
   const [completedOrder, setCompletedOrder] = useState(null);
   const [inputCoupon, setInputCoupon] = useState('');
 
+  const isAPTS = isFreeShippingRegion(formData.pincode, formData.state) || cartState.isAPTS;
+
   useEffect(() => {
     if (items.length > 0) {
       analytics.trackBeginCheckout(items, cartState.grandTotal);
     }
   }, [items, cartState.grandTotal]);
 
+  useEffect(() => {
+    if (formData.pincode && formData.pincode.length === 6) {
+      shippingService.checkPincode(formData.pincode).then(res => setPincodeCheckResult(res));
+    }
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
 
-    if (name === 'pincode' && value.length === 6) {
-      shippingService.checkPincode(value).then(res => setPincodeCheckResult(res));
+    if (name === 'pincode') {
+      const clean = value.replace(/\D/g, '');
+      if (clean.length === 6) {
+        shippingService.checkPincode(clean).then(res => setPincodeCheckResult(res));
+        setDeliveryRegion({ pincode: clean, state: formData.state });
+      }
+    }
+    if (name === 'state') {
+      setDeliveryRegion({ pincode: formData.pincode, state: value });
     }
   };
 
@@ -85,11 +102,12 @@ export function CheckoutPage({ onNavigate }) {
     setIsProcessing(true);
 
     try {
-      // 1. Authoritatively re-validate cart with WooCommerce
+      // 1. Authoritatively re-validate cart with WooCommerce including AP/TS deliveryRegion
       const validatedCart = await wooCommerceService.validateCart(
         items,
         couponCode,
-        shippingMethod
+        shippingMethod,
+        { pincode: formData.pincode, state: formData.state }
       );
 
       if (!validatedCart.isValid) {
@@ -387,7 +405,13 @@ export function CheckoutPage({ onNavigate }) {
                     <span>Moisture-sealed protective packaging</span>
                   </div>
                   <span className="shipping-radio-price">
-                    {cartState.subtotal >= 2500 ? 'FREE' : '₹150'}
+                    {isAPTS ? (
+                      <strong style={{ color: '#059669' }}>FREE (AP & TS)</strong>
+                    ) : cartState.subtotal >= 2500 ? (
+                      <strong style={{ color: '#059669' }}>FREE</strong>
+                    ) : (
+                      '₹150'
+                    )}
                   </span>
                 </label>
 
@@ -436,7 +460,14 @@ export function CheckoutPage({ onNavigate }) {
               disabled={isProcessing}
             >
               <Lock size={16} />
-              <span>{isProcessing ? 'OPENING RAZORPAY SECURE GATEWAY...' : `PAY ₹${cartState.grandTotal?.toLocaleString('en-IN')} VIA RAZORPAY`}</span>
+              <span>
+                {isProcessing
+                  ? 'OPENING RAZORPAY SECURE GATEWAY...'
+                  : `PAY ₹${(isAPTS
+                      ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                      : cartState.grandTotal
+                    )?.toLocaleString('en-IN')} VIA RAZORPAY`}
+              </span>
             </Button>
           </div>
 
@@ -455,18 +486,21 @@ export function CheckoutPage({ onNavigate }) {
               </div>
               
               <div className="summary-items-scroll">
-                {cartState.items?.map((item) => {
-                  const itemIdentifier = item.itemKey || item.productId || item.product?.id;
+                {cartState.items?.map((item, idx) => {
+                  const itemIdentifier = item.itemKey || item.productId || item.product?.id || `checkout_item_${idx}`;
                   return (
-                    <div key={itemIdentifier} className="summary-item-line">
-                      <img src={item.product.images?.[0]?.url || '/images/product/spun1.jpeg'} alt="" className="summary-thumb" />
+                    <div key={itemIdentifier || idx} className="summary-item-line">
+                      <img src={item.product?.images?.[0]?.url || '/images/product/spun1.jpeg'} alt="" className="summary-thumb" />
                       <div className="summary-info">
-                        <h4 className="summary-name">{item.product.name}</h4>
+                        <h4 className="summary-name">{item.product?.name || '10" PP Spun Filter'}</h4>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
                           <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid #cbd5e1', borderRadius: '4px', background: '#fff' }}>
                             <button
                               type="button"
-                              onClick={() => updateQuantity(itemIdentifier, item.quantity - 1)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateQuantity(itemIdentifier, item.quantity - 1, idx);
+                              }}
                               style={{ border: 'none', background: 'none', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}
                               title="Decrease quantity"
                             >
@@ -475,8 +509,11 @@ export function CheckoutPage({ onNavigate }) {
                             <span style={{ fontSize: '11px', fontWeight: 700, padding: '0 5px' }}>{item.quantity}</span>
                             <button
                               type="button"
-                              onClick={() => updateQuantity(itemIdentifier, item.quantity + 1)}
-                              disabled={item.quantity >= (item.product.stock || 999)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateQuantity(itemIdentifier, item.quantity + 1, idx);
+                              }}
+                              disabled={item.quantity >= (item.product?.stock || 999)}
                               style={{ border: 'none', background: 'none', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}
                               title="Increase quantity"
                             >
@@ -485,7 +522,11 @@ export function CheckoutPage({ onNavigate }) {
                           </div>
                           <button
                             type="button"
-                            onClick={() => removeFromCart(itemIdentifier)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              removeFromCart(itemIdentifier, idx);
+                            }}
                             style={{ border: 'none', background: 'none', color: '#ef4444', padding: '2px 4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '2px', fontSize: '11px', fontWeight: 600 }}
                             title="Remove item from order"
                           >
@@ -537,7 +578,15 @@ export function CheckoutPage({ onNavigate }) {
                 )}
                 <div className="summary-row">
                   <span>Shipping</span>
-                  <span>{cartState.shippingFee === 0 ? 'FREE' : `₹${cartState.shippingFee}`}</span>
+                  <span>
+                    {isAPTS ? (
+                      <strong style={{ color: '#059669' }}>FREE (AP & TS Special)</strong>
+                    ) : cartState.shippingFee === 0 ? (
+                      <strong style={{ color: '#059669' }}>FREE</strong>
+                    ) : (
+                      `₹${cartState.shippingFee}`
+                    )}
+                  </span>
                 </div>
                 <div className="summary-row">
                   <span>GST (Included)</span>
@@ -545,7 +594,12 @@ export function CheckoutPage({ onNavigate }) {
                 </div>
                 <div className="summary-row total-row">
                   <strong>Total</strong>
-                  <strong>₹{cartState.grandTotal?.toLocaleString('en-IN')}</strong>
+                  <strong>
+                    ₹{(isAPTS
+                      ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                      : cartState.grandTotal
+                    )?.toLocaleString('en-IN')}
+                  </strong>
                 </div>
               </div>
             </div>

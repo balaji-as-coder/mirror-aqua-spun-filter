@@ -92,16 +92,41 @@
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 16px 20px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.cart-shipping-banner.ap-ts-active {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border-color: #86efac;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+}
+
+.shipping-banner-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f0f9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cart-shipping-banner.ap-ts-active .shipping-banner-badge {
+  background: #dcfce7;
 }
 
 .shipping-icon {
   color: #0284c7;
-  flex-shrink: 0;
+}
+
+.cart-shipping-banner.ap-ts-active .shipping-icon {
+  color: #059669;
 }
 
 .shipping-banner-content {
@@ -109,17 +134,44 @@
 }
 
 .shipping-banner-text {
-  font-size: 13.5px;
+  font-size: 14px;
   color: #334155;
   margin: 0 0 8px 0;
+  line-height: 1.4;
 }
 
 .shipping-banner-text.qualified {
   color: #059669;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.ap-ts-highlight-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ap-ts-subtext {
+  font-size: 12px;
+  color: #047857;
+  font-weight: 500;
+}
+
+.pan-india-note {
+  font-size: 12.5px;
+  color: #64748b;
+  font-weight: normal;
+}
+
+.pan-india-note.qualified {
+  color: #059669;
+  font-weight: 600;
 }
 
 .shipping-highlight {
   color: #0284c7;
+  font-weight: 700;
 }
 
 .shipping-progress-track {
@@ -128,6 +180,7 @@
   background-color: #f1f5f9;
   border-radius: 4px;
   overflow: hidden;
+  margin-top: 4px;
 }
 
 .shipping-progress-fill {
@@ -317,6 +370,150 @@
 
 .cart-delete-item-btn:active {
   transform: translateY(0);
+}
+
+/* Pincode Checker Card */
+.cart-pincode-checker-card {
+  margin-top: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.checker-header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.pin-icon {
+  color: #0284c7;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.checker-header strong {
+  display: block;
+  font-size: 14px;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.checker-header p {
+  font-size: 12.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+.pincode-checker-form {
+  display: flex;
+  gap: 8px;
+  max-width: 440px;
+  margin-bottom: 12px;
+}
+
+.pincode-check-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.pincode-check-input:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.pincode-check-btn {
+  background: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.pincode-check-btn:hover {
+  background: #0369a1;
+}
+
+.ap-ts-quick-cities {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.quick-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #059669;
+}
+
+.quick-badges-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.city-pill {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.city-pill:hover {
+  background: #166534;
+  color: #ffffff;
+  border-color: #166534;
+  transform: translateY(-1px);
+}
+
+.pincode-status-box {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 0.2s ease;
+}
+
+.pincode-status-box.success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #166534;
+  font-weight: 600;
+}
+
+.pincode-status-box.info {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0369a1;
+}
+
+.pincode-status-box.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
 }
 
 /* Bottom Actions */
