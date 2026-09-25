@@ -4,7 +4,7 @@
  * Provides real courier estimates and free shipping logic (100% Free Shipping for AP & TS).
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) || '/api';
 
 /**
  * Helper to identify if delivery address is in Andhra Pradesh or Telangana
