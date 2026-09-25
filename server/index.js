@@ -551,7 +551,7 @@ app.post('/api/shipping/check-pincode', async (req, res) => {
       estimatedDays: '3-5 business days',
       isFreeShipping: isAPTS,
       regionName: isAPTS ? 'Andhra Pradesh & Telangana' : null,
-      rate: isAPTS ? 0 : 150
+      rate: isAPTS ? 0 : 60
     });
   }
 

@@ -234,7 +234,7 @@ export function CartProvider({ children }) {
       const isAPTS = isFreeShippingRegion(deliveryRegion?.pincode, deliveryRegion?.state);
       const newSubtotal = remainingItems.reduce((acc, it) => acc + (it.lineTotal || (it.unitPrice * it.quantity)), 0);
       const discount = prev.appliedCoupon ? Math.min(newSubtotal, prev.discountAmount || 0) : 0;
-      const shipping = newSubtotal === 0 ? 0 : (isAPTS || newSubtotal >= 2500 ? 0 : (prev.shippingFee || 150));
+      const shipping = newSubtotal === 0 ? 0 : (isAPTS || newSubtotal >= 2500 ? 0 : (prev.shippingFee !== undefined && prev.shippingFee !== null ? prev.shippingFee : 60));
       const grandTotal = Math.max(0, newSubtotal - discount + shipping);
 
       return {

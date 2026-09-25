@@ -41,7 +41,7 @@ export function isFreeShippingRegion(pincode, state) {
 export class ShippingService {
   constructor() {
     this.freeShippingThreshold = 2500; // INR for rest of India
-    this.standardShippingFee = 150; // INR
+    this.standardShippingFee = 60; // INR for other states (₹60)
     this.expressShippingFee = 350; // INR
   }
 

@@ -401,8 +401,8 @@ export function CheckoutPage({ onNavigate }) {
                     onChange={() => setShippingMethod('standard')}
                   />
                   <div className="shipping-radio-info">
-                    <strong>Standard Delivery (3-5 business days)</strong>
-                    <span>Moisture-sealed protective packaging</span>
+                    <strong>Standard Delivery (3-5 business days) — AP & TS FREE / Other States ₹60</strong>
+                    <span>Moisture-sealed protective packaging • Fast surface dispatch</span>
                   </div>
                   <span className="shipping-radio-price">
                     {isAPTS ? (
@@ -410,7 +410,7 @@ export function CheckoutPage({ onNavigate }) {
                     ) : cartState.subtotal >= 2500 ? (
                       <strong style={{ color: '#059669' }}>FREE</strong>
                     ) : (
-                      '₹150'
+                      <strong>₹60</strong>
                     )}
                   </span>
                 </label>
@@ -438,11 +438,18 @@ export function CheckoutPage({ onNavigate }) {
               <div className="payment-box-info">
                 <div className="payment-header-row">
                   <CreditCard size={20} color="var(--accent-terracotta)" />
-                  <strong>Razorpay Secure Gateway / UPI / NetBanking / Cards</strong>
+                  <strong>Razorpay Official Secure Gateway / UPI / NetBanking / Cards</strong>
                 </div>
                 <p className="payment-sub-text">
                   Your payment will be securely processed. We support UPI (Google Pay, PhonePe, Paytm), All Major Debit/Credit Cards, and NetBanking.
                 </p>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '10px' }}>
+                  <span className="pay-badge" style={{ fontSize: '11px', background: '#f0f9ff', color: '#0369a1', padding: '3px 8px', borderRadius: '4px', border: '1px solid #bae6fd', fontWeight: 700 }}>Google Pay</span>
+                  <span className="pay-badge" style={{ fontSize: '11px', background: '#f0f9ff', color: '#0369a1', padding: '3px 8px', borderRadius: '4px', border: '1px solid #bae6fd', fontWeight: 700 }}>PhonePe</span>
+                  <span className="pay-badge" style={{ fontSize: '11px', background: '#f0f9ff', color: '#0369a1', padding: '3px 8px', borderRadius: '4px', border: '1px solid #bae6fd', fontWeight: 700 }}>Paytm / UPI</span>
+                  <span className="pay-badge" style={{ fontSize: '11px', background: '#f8fafc', color: '#334155', padding: '3px 8px', borderRadius: '4px', border: '1px solid #cbd5e1', fontWeight: 700 }}>Debit / Credit Cards</span>
+                  <span className="pay-badge" style={{ fontSize: '11px', background: '#f8fafc', color: '#334155', padding: '3px 8px', borderRadius: '4px', border: '1px solid #cbd5e1', fontWeight: 700 }}>NetBanking</span>
+                </div>
               </div>
             </div>
 
@@ -453,6 +460,7 @@ export function CheckoutPage({ onNavigate }) {
               </div>
             )}
 
+            {/* Primary Payment Button in Form */}
             <Button
               type="submit"
               variant="accent"
@@ -465,7 +473,9 @@ export function CheckoutPage({ onNavigate }) {
                   ? 'OPENING RAZORPAY SECURE GATEWAY...'
                   : `PAY ₹${(isAPTS
                       ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
-                      : cartState.grandTotal
+                      : (cartState.subtotal >= 2500
+                          ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                          : Math.max(0, cartState.subtotal - (cartState.discountAmount || 0) + 60))
                     )?.toLocaleString('en-IN')} VIA RAZORPAY`}
               </span>
             </Button>
@@ -581,10 +591,10 @@ export function CheckoutPage({ onNavigate }) {
                   <span>
                     {isAPTS ? (
                       <strong style={{ color: '#059669' }}>FREE (AP & TS Special)</strong>
-                    ) : cartState.shippingFee === 0 ? (
+                    ) : cartState.subtotal >= 2500 ? (
                       <strong style={{ color: '#059669' }}>FREE</strong>
                     ) : (
-                      `₹${cartState.shippingFee}`
+                      <strong>₹60</strong>
                     )}
                   </span>
                 </div>
@@ -597,10 +607,39 @@ export function CheckoutPage({ onNavigate }) {
                   <strong>
                     ₹{(isAPTS
                       ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
-                      : cartState.grandTotal
+                      : (cartState.subtotal >= 2500
+                          ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                          : Math.max(0, cartState.subtotal - (cartState.discountAmount || 0) + 60))
                     )?.toLocaleString('en-IN')}
                   </strong>
                 </div>
+              </div>
+
+              {/* Instant Razorpay Payment Button directly in Order Summary */}
+              <div style={{ marginTop: '16px' }}>
+                <Button
+                  type="submit"
+                  variant="accent"
+                  style={{ width: '100%', padding: '14px 18px', fontSize: '13.5px', fontWeight: 800, letterSpacing: '0.03em', background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', boxShadow: '0 4px 12px rgba(2, 132, 199, 0.35)' }}
+                  disabled={isProcessing}
+                >
+                  <Lock size={16} />
+                  <span>
+                    {isProcessing
+                      ? 'PROCESSING PAYMENT...'
+                      : `PAY ₹${(isAPTS
+                          ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                          : (cartState.subtotal >= 2500
+                              ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                              : Math.max(0, cartState.subtotal - (cartState.discountAmount || 0) + 60))
+                        )?.toLocaleString('en-IN')} VIA RAZORPAY`}
+                  </span>
+                </Button>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '11px', color: '#64748b', marginTop: '12px', textAlign: 'center' }}>
+                <ShieldCheck size={14} color="#059669" />
+                <span>Razorpay Secured • Fast Courier Dispatch</span>
               </div>
             </div>
           </div>

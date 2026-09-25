@@ -241,14 +241,16 @@ export function CartDrawer({ onNavigate }) {
               )}
               <div className="summary-row">
                 <span>Estimated Shipping</span>
-                <span>{isAPTS ? <strong style={{ color: '#059669' }}>Free (AP & TS)</strong> : cartState.shippingFee === 0 ? 'Free' : `₹${cartState.shippingFee}`}</span>
+                <span>{isAPTS ? <strong style={{ color: '#059669' }}>FREE (AP & TS)</strong> : cartState.subtotal >= 2500 ? <strong style={{ color: '#059669' }}>FREE</strong> : '₹60 (Other States)'}</span>
               </div>
               <div className="summary-row total-row">
                 <strong>Estimated Total</strong>
                 <strong>
                   ₹{(isAPTS
                     ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
-                    : cartState.grandTotal
+                    : (cartState.subtotal >= 2500
+                        ? Math.max(0, cartState.subtotal - (cartState.discountAmount || 0))
+                        : Math.max(0, cartState.subtotal - (cartState.discountAmount || 0) + 60))
                   )?.toLocaleString('en-IN')}
                 </strong>
               </div>
@@ -258,15 +260,14 @@ export function CartDrawer({ onNavigate }) {
               variant="accent"
               className="checkout-cta-btn"
               onClick={handleCheckout}
-              disabled={isValidating || !cartState.isValid}
             >
-              <span>{isValidating ? 'Validating...' : 'PROCEED TO CHECKOUT'}</span>
+              <span>PROCEED TO BUY / PAY</span>
               <ArrowRight size={16} />
             </Button>
 
             <div className="cart-trust-note">
               <ShieldCheck size={14} />
-              <span>Mirror Aqua Verified • Secure 256-bit Encryption</span>
+              <span>Razorpay Verified • Free Delivery for AP & TS • ₹60 Other States</span>
             </div>
           </div>
         )}
