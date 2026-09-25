@@ -1,17 +1,8 @@
 import React from 'react';
-import { MessageCircle, ShieldCheck, Truck, CheckCircle2, PhoneCall } from 'lucide-react';
-import { analytics } from '../../services/analytics.js';
+import { ShieldCheck, Truck, CheckCircle2 } from 'lucide-react';
 import './Footer.css';
 
 export function Footer({ onNavigate }) {
-  const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
-
-  const handleWhatsAppClick = () => {
-    analytics.trackWhatsAppClick('footer_help_btn', { name: 'Mirror Aqua General Support' });
-    const msg = encodeURIComponent('Hello Mirror Aqua, I need assistance with RO water purifier spare parts and replacement filters.');
-    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, '_blank');
-  };
-
   return (
     <footer className="site-footer">
       {/* Trust & Guarantee Ribbon */}
@@ -55,11 +46,6 @@ export function Footer({ onNavigate }) {
             <p className="footer-brand-desc">
               Reliable PP spun sediment filters and genuine water purifier pre-filtration elements. Manufactured for consistent filtration performance and long-lasting reliability across India.
             </p>
-            {/* WhatsApp Direct Assist */}
-            <button onClick={handleWhatsAppClick} className="whatsapp-assist-btn">
-              <MessageCircle size={16} />
-              <span>Ask Mirror Aqua on WhatsApp</span>
-            </button>
           </div>
 
           {/* Column 2: Products */}

@@ -121,10 +121,16 @@ export class WooCommerceService {
       const lineTotal = linePrice * availableQty;
       subtotal += lineTotal;
 
+      const pId = item.productId || item.product?.id || liveProduct.id;
+      const key = item.itemKey || `${pId}-${item.product?.sku || liveProduct.sku}-${linePrice}`;
+
       validatedItems.push({
+        itemKey: key,
+        productId: pId,
         product: {
           ...liveProduct,
           ...(item.product || {}),
+          id: pId,
           price: linePrice
         },
         quantity: availableQty,

@@ -131,14 +131,6 @@ export function ProductHero({ product, onNavigate }) {
     onNavigate('/checkout');
   };
 
-  const handleWhatsAppOrder = () => {
-    analytics.trackWhatsAppClick('hero_order_btn', product, isSampleSelected ? 1 : quantity);
-    const text = isSampleSelected
-      ? `Hello Mirror Aqua,\n\nI want to claim the 15-Hour Flash Trial:\n• Product: Mirror Aqua 10-Inch 5-Micron PP Spun Filter (1-Piece Quality Sample)\n• Flash Trial Price: ₹10/- (MRP ₹399 • 97% OFF)\n\nPlease confirm delivery availability.`
-      : `Hello Mirror Aqua,\n\nI want to order:\n\n• Product: ${product?.name || '10-Inch 5-Micron PP Spun Filter'}\n• Quantity: ${quantity} Piece${quantity > 1 ? 's' : ''} (${isBulkRate ? '₹180/pc Value Rate' : '₹199/pc Standard'})\n• Total Amount: ₹${currentPrice.toLocaleString('en-IN')}\n\nPlease confirm stock availability and express dispatch to my pincode.`;
-    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(text)}`, '_blank');
-  };
-
   const handleCheckPincode = (e) => {
     e.preventDefault();
     if (!/^\d{6}$/.test(pincode.trim())) {
@@ -407,15 +399,6 @@ export function ProductHero({ product, onNavigate }) {
             >
               <ShoppingBag size={18} />
               <span>ADD {quantity > 1 ? `(${quantity})` : ''} TO CART</span>
-            </button>
-
-            <button
-              type="button"
-              className="cta-btn cta-whatsapp"
-              onClick={handleWhatsAppOrder}
-            >
-              <MessageCircle size={18} />
-              <span>ORDER {quantity} ON WHATSAPP</span>
             </button>
           </div>
 

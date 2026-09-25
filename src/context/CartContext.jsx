@@ -52,21 +52,26 @@ export function CartProvider({ children }) {
   }, [items, couponCode, shippingMethod, refreshCart]);
 
   const addToCart = (product, quantity = 1) => {
-    const itemKey = `${product.id || 'prod'}-${product.sku || 'sku'}-${product.price || 199}`;
+    const pId = product.id || 'ma-prod-001';
+    const pSku = product.sku || 'MA-PP-10-05M';
+    const pPrice = Number(product.price) || 199;
+    const pPack = (product.selectedPack || '').replace(/\s+/g, '-');
+    const itemKey = `${pId}_${pSku}_${pPrice}_${pPack}`;
+
     setItems(prev => {
-      const existing = prev.find(item => item.itemKey === itemKey || item.productId === (product.id || itemKey));
-      if (existing) {
-        return prev.map(item =>
-          (item.itemKey === itemKey || item.productId === (product.id || itemKey))
+      const existingIdx = prev.findIndex(item => item.itemKey === itemKey || (item.productId === pId && item.unitPrice === pPrice));
+      if (existingIdx >= 0) {
+        return prev.map((item, idx) =>
+          idx === existingIdx
             ? { ...item, quantity: item.quantity + quantity, product: { ...item.product, ...product } }
             : item
         );
       }
       return [...prev, {
         itemKey,
-        productId: product.id || itemKey,
+        productId: pId,
         quantity,
-        unitPrice: product.price,
+        unitPrice: pPrice,
         product
       }];
     });
@@ -79,26 +84,66 @@ export function CartProvider({ children }) {
     addToCart(product, quantity);
   };
 
-  const updateQuantity = (productId, newQuantity) => {
+  const updateQuantity = (identifier, newQuantity) => {
     if (newQuantity <= 0) {
-      removeFromCart(productId);
+      removeFromCart(identifier);
       return;
     }
+
     setItems(prev =>
-      prev.map(item =>
-        (item.productId === productId || item.itemKey === productId)
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
+      prev.map(item => {
+        const isMatch = item.itemKey === identifier || item.productId === identifier || item.product?.id === identifier;
+        return isMatch ? { ...item, quantity: newQuantity } : item;
+      })
     );
+
+    // Optimistically update cartState for immediate UI feedback
+    setCartState(prev => ({
+      ...prev,
+      items: (prev.items || []).map(item => {
+        const isMatch = item.itemKey === identifier || item.productId === identifier || item.product?.id === identifier;
+        if (isMatch) {
+          const uPrice = item.unitPrice || item.product?.price || 199;
+          return { ...item, quantity: newQuantity, lineTotal: uPrice * newQuantity };
+        }
+        return item;
+      })
+    }));
   };
 
-  const removeFromCart = (productId) => {
-    const itemToRemove = items.find(item => item.productId === productId || item.itemKey === productId);
+  const removeFromCart = (identifier) => {
+    const itemToRemove = items.find(item =>
+      item.itemKey === identifier || item.productId === identifier || item.product?.id === identifier || item.product?.sku === identifier
+    );
+
     if (itemToRemove && itemToRemove.product) {
       analytics.trackRemoveFromCart(itemToRemove.product, itemToRemove.quantity);
     }
-    setItems(prev => prev.filter(item => item.productId !== productId && item.itemKey !== productId));
+
+    // Immediately remove from items
+    setItems(prev => prev.filter(item => {
+      const isMatch = item.itemKey === identifier || item.productId === identifier || item.product?.id === identifier || item.product?.sku === identifier;
+      return !isMatch;
+    }));
+
+    // Optimistically remove from cartState so drawer & page update instantly
+    setCartState(prev => {
+      const remainingItems = (prev.items || []).filter(item => {
+        const isMatch = item.itemKey === identifier || item.productId === identifier || item.product?.id === identifier || item.product?.sku === identifier;
+        return !isMatch;
+      });
+      const newSubtotal = remainingItems.reduce((acc, it) => acc + (it.lineTotal || (it.unitPrice * it.quantity)), 0);
+      const discount = prev.appliedCoupon ? Math.min(newSubtotal, prev.discountAmount || 0) : 0;
+      const shipping = newSubtotal === 0 ? 0 : (newSubtotal >= 2500 ? 0 : (prev.shippingFee || 150));
+      return {
+        ...prev,
+        items: remainingItems,
+        subtotal: newSubtotal,
+        discountAmount: discount,
+        shippingFee: shipping,
+        grandTotal: Math.max(0, newSubtotal - discount + shipping)
+      };
+    });
   };
 
   const applyCoupon = (code) => {

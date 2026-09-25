@@ -8,7 +8,10 @@ import {
   CreditCard,
   MessageCircle,
   AlertCircle,
-  Tag
+  Tag,
+  Trash2,
+  Plus,
+  Minus
 } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
 import { Button, Price } from '../components/ui/Primitives.jsx';
@@ -24,6 +27,8 @@ export function CheckoutPage({ onNavigate }) {
   const {
     items,
     cartState,
+    updateQuantity,
+    removeFromCart,
     couponCode,
     applyCoupon,
     removeCoupon,
@@ -211,17 +216,6 @@ export function CheckoutPage({ onNavigate }) {
               <span>Continue Shopping</span>
               <ArrowRight size={16} />
             </Button>
-            <a
-              href={`https://wa.me/919876543210?text=${encodeURIComponent(
-                `Hello Mirror Aqua, I placed Order #${completedOrder.orderId} (Razorpay Txn: ${completedOrder.payment?.transactionId || 'N/A'}) and would like dispatch tracking updates.`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="whatsapp-receipt-btn"
-            >
-              <MessageCircle size={16} />
-              <span>Contact Mirror Aqua on WhatsApp</span>
-            </a>
           </div>
         </div>
       </div>
@@ -449,19 +443,61 @@ export function CheckoutPage({ onNavigate }) {
           {/* Right Column: Order Summary */}
           <div className="checkout-summary-column">
             <div className="checkout-summary-card">
-              <h3 className="summary-title">Order Summary ({items.length} items)</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                <h3 className="summary-title" style={{ margin: 0, border: 'none', padding: 0 }}>Order Summary ({items.length})</h3>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/cart')}
+                  style={{ background: 'none', border: 'none', color: '#0284c7', fontSize: '12px', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
+                >
+                  Edit Cart
+                </button>
+              </div>
               
               <div className="summary-items-scroll">
-                {cartState.items?.map((item) => (
-                  <div key={item.product.id} className="summary-item-line">
-                    <img src={item.product.images?.[0]?.url} alt="" className="summary-thumb" />
-                    <div className="summary-info">
-                      <h4 className="summary-name">{item.product.name}</h4>
-                      <span className="summary-qty">Qty: {item.quantity}</span>
+                {cartState.items?.map((item) => {
+                  const itemIdentifier = item.itemKey || item.productId || item.product?.id;
+                  return (
+                    <div key={itemIdentifier} className="summary-item-line">
+                      <img src={item.product.images?.[0]?.url || '/images/product/spun1.jpeg'} alt="" className="summary-thumb" />
+                      <div className="summary-info">
+                        <h4 className="summary-name">{item.product.name}</h4>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
+                          <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid #cbd5e1', borderRadius: '4px', background: '#fff' }}>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(itemIdentifier, item.quantity - 1)}
+                              style={{ border: 'none', background: 'none', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}
+                              title="Decrease quantity"
+                            >
+                              <Minus size={11} />
+                            </button>
+                            <span style={{ fontSize: '11px', fontWeight: 700, padding: '0 5px' }}>{item.quantity}</span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(itemIdentifier, item.quantity + 1)}
+                              disabled={item.quantity >= (item.product.stock || 999)}
+                              style={{ border: 'none', background: 'none', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}
+                              title="Increase quantity"
+                            >
+                              <Plus size={11} />
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFromCart(itemIdentifier)}
+                            style={{ border: 'none', background: 'none', color: '#ef4444', padding: '2px 4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '2px', fontSize: '11px', fontWeight: 600 }}
+                            title="Remove item from order"
+                          >
+                            <Trash2 size={12} />
+                            <span>Remove</span>
+                          </button>
+                        </div>
+                      </div>
+                      <span className="summary-line-total">₹{(item.lineTotal || (item.unitPrice * item.quantity)).toLocaleString('en-IN')}</span>
                     </div>
-                    <span className="summary-line-total">₹{item.lineTotal.toLocaleString('en-IN')}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Coupon Form */}

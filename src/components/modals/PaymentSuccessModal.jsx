@@ -169,14 +169,6 @@ export function PaymentSuccessModal({ isOpen, onClose, orderData, onNavigate }) 
           </Button>
 
           <button
-            className="action-whatsapp-btn"
-            onClick={handleWhatsAppUpdate}
-          >
-            <MessageSquare size={16} />
-            <span>Get WhatsApp Dispatch Updates</span>
-          </button>
-
-          <button
             className="action-print-btn"
             onClick={handlePrintReceipt}
           >

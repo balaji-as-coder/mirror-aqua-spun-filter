@@ -200,17 +200,6 @@ export function ProductDetailPage({ slug, onNavigate }) {
             </button>
           </div>
 
-          {/* WhatsApp Direct Product Inquiry (Clean SKU & URL without PII) */}
-          <a
-            href={whatsappInquiryUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="whatsapp-pdp-inquiry"
-          >
-            <MessageCircle size={18} />
-            <span>Ask about this piece or request custom gift packaging on WhatsApp</span>
-          </a>
-
           {/* Quick Assurance Badges */}
           <div className="assurance-badges-grid">
             <div className="assurance-item">

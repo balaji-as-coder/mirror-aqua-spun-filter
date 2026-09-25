@@ -105,19 +105,6 @@ export function FAQAccordion({ faqs = [] }) {
             );
           })}
         </div>
-
-        {/* Still Have Questions CTA */}
-        <div className="faq-help-box text-center">
-          <p>Have another question about your water purifier model or filtration stages?</p>
-          <button
-            type="button"
-            className="faq-wa-help-btn"
-            onClick={handleWhatsAppHelp}
-          >
-            <MessageCircle size={18} />
-            <span>Ask Mirror Aqua Technical Support</span>
-          </button>
-        </div>
       </div>
     </section>
   );

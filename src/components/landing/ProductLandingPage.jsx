@@ -87,11 +87,6 @@ export function ProductLandingPage({ slug = '10-inch-5-micron-pp-spun-filter', o
             "priceValidUntil": "2027-12-31",
             "itemCondition": "https://schema.org/NewCondition",
             "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-          },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "142"
           }
         },
         {

@@ -85,59 +85,66 @@ export function CartDrawer({ onNavigate }) {
         <div className="cart-drawer-body">
           {cartState.items && cartState.items.length > 0 ? (
             <div className="cart-items-list">
-              {cartState.items.map((item) => (
-                <div key={item.product.id} className="cart-item-row">
-                  <img
-                    src={item.product.images?.[0]?.url}
-                    alt={item.product.name}
-                    className="cart-item-thumb"
-                  />
-                  <div className="cart-item-details">
-                    <span className="cart-item-craft">{item.product.selectedPack || item.product.category || '10-Inch 5-Micron Sediment Filter'}</span>
-                    <h4
-                      className="cart-item-name"
-                      onClick={() => {
-                        setIsCartOpen(false);
-                        onNavigate(`/product/${item.product.slug}`);
-                      }}
-                    >
-                      {item.product.name}
-                    </h4>
-                    <div className="cart-item-price-wrap">
-                      <Price price={item.unitPrice} />
-                    </div>
-
-                    <div className="cart-item-controls">
-                      <div className="qty-stepper">
-                        <button
-                          className="qty-btn"
-                          onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                          aria-label="Decrease Quantity"
-                        >
-                          <Minus size={13} />
-                        </button>
-                        <span className="qty-val">{item.quantity}</span>
-                        <button
-                          className="qty-btn"
-                          onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                          disabled={item.quantity >= item.product.stock}
-                          aria-label="Increase Quantity"
-                        >
-                          <Plus size={13} />
-                        </button>
+              {cartState.items.map((item) => {
+                const itemIdentifier = item.itemKey || item.productId || item.product?.id;
+                return (
+                  <div key={itemIdentifier} className="cart-item-row">
+                    <img
+                      src={item.product.images?.[0]?.url}
+                      alt={item.product.name}
+                      className="cart-item-thumb"
+                    />
+                    <div className="cart-item-details">
+                      <span className="cart-item-craft">{item.product.selectedPack || item.product.category || '10-Inch 5-Micron Sediment Filter'}</span>
+                      <h4
+                        className="cart-item-name"
+                        onClick={() => {
+                          setIsCartOpen(false);
+                          onNavigate(`/product/${item.product.slug}`);
+                        }}
+                      >
+                        {item.product.name}
+                      </h4>
+                      <div className="cart-item-price-wrap">
+                        <Price price={item.unitPrice} />
                       </div>
 
-                      <button
-                        className="cart-item-remove-btn"
-                        onClick={() => removeFromCart(item.product.id)}
-                        aria-label="Remove item"
-                      >
-                        <Trash2 size={15} />
-                      </button>
+                      <div className="cart-item-controls">
+                        <div className="qty-stepper">
+                          <button
+                            type="button"
+                            className="qty-btn"
+                            onClick={() => updateQuantity(itemIdentifier, item.quantity - 1)}
+                            aria-label="Decrease Quantity"
+                          >
+                            <Minus size={13} />
+                          </button>
+                          <span className="qty-val">{item.quantity}</span>
+                          <button
+                            type="button"
+                            className="qty-btn"
+                            onClick={() => updateQuantity(itemIdentifier, item.quantity + 1)}
+                            disabled={item.quantity >= (item.product.stock || 999)}
+                            aria-label="Increase Quantity"
+                          >
+                            <Plus size={13} />
+                          </button>
+                        </div>
+
+                        <button
+                          type="button"
+                          className="cart-item-remove-btn"
+                          onClick={() => removeFromCart(itemIdentifier)}
+                          aria-label="Remove item"
+                          title="Remove product from cart"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="empty-state">

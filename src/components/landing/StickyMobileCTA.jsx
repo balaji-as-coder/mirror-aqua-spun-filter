@@ -1,12 +1,11 @@
 import React from 'react';
-import { Zap, MessageCircle, ShoppingBag } from 'lucide-react';
+import { Zap, ShoppingBag } from 'lucide-react';
 import { useCart } from '../../context/CartContext.jsx';
 import { analytics } from '../../services/analytics.js';
 import './ProductLanding.css';
 
 export function StickyMobileCTA({ product, onNavigate }) {
   const { addToCart, addItem, setIsCartOpen } = useCart();
-  const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
 
   const basePrice = product?.price || 199;
   const isOutOfStock = product?.stockStatus === 'outofstock' || product?.stock === 0;
@@ -47,12 +46,6 @@ export function StickyMobileCTA({ product, onNavigate }) {
     if (setIsCartOpen) setIsCartOpen(true);
   };
 
-  const handleWhatsApp = () => {
-    analytics.trackWhatsAppClick('mobile_sticky_cta', product, 1);
-    const text = `Hello Mirror Aqua,\n\nI want to order the Mirror Aqua 10-Inch 5-Micron PP Spun Filter (₹${basePrice}).\nPlease confirm delivery availability.`;
-    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(text)}`, '_blank');
-  };
-
   return (
     <aside className="sticky-mobile-cta-bar" aria-label="Quick Purchase Actions">
       <div className="sticky-mobile-inner">
@@ -75,16 +68,7 @@ export function StickyMobileCTA({ product, onNavigate }) {
             aria-label="Add to Cart"
           >
             <ShoppingBag size={18} />
-          </button>
-
-          <button
-            type="button"
-            className="sticky-wa-btn"
-            onClick={handleWhatsApp}
-            aria-label="Order on WhatsApp"
-          >
-            <MessageCircle size={18} />
-            <span>WhatsApp</span>
+            <span>Add to Cart</span>
           </button>
 
           <button

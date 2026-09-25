@@ -8,11 +8,13 @@ import { MobileNavDrawer } from './components/drawers/MobileNavDrawer.jsx';
 import { QuickViewModal } from './components/modals/QuickViewModal.jsx';
 
 import { ProductLandingPage } from './components/landing/ProductLandingPage.jsx';
+import { CartPage } from './pages/CartPage.jsx';
 import { CheckoutPage } from './pages/CheckoutPage.jsx';
 import { AccountPage } from './pages/AccountPage.jsx';
 import { VideoTutorialPage } from './pages/VideoTutorialPage.jsx';
 import { TrackOrderPage } from './pages/TrackOrderPage.jsx';
 import { FAQPage, ShippingInfoPage, LegalPage } from './pages/StaticPages.jsx';
+import { WhatsAppBotButton } from './components/ui/WhatsAppBotButton.jsx';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState(() => {
@@ -55,6 +57,10 @@ export function App() {
 
     if (path === '/how-to-change-spun-filter' || path === '/installation-guide' || path === '/video-tutorial') {
       return <VideoTutorialPage onNavigate={navigate} />;
+    }
+
+    if (path === '/cart') {
+      return <CartPage onNavigate={navigate} />;
     }
 
     if (path === '/checkout') {
@@ -124,6 +130,9 @@ export function App() {
       <SearchDrawer onNavigate={navigate} />
       <MobileNavDrawer currentPath={currentPath} onNavigate={navigate} />
       <QuickViewModal onNavigate={navigate} />
+
+      {/* Floating WhatsApp Bot Support Widget */}
+      <WhatsAppBotButton />
     </div>
   );
 }

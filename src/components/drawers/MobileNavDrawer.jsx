@@ -119,19 +119,6 @@ export function MobileNavDrawer({ currentPath = '/', onNavigate }) {
                 <ChevronRight size={16} className="nav-chevron" />
               </button>
             </li>
-            <li>
-              <a
-                href={`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent('Hello Mirror Aqua, I need technical support for PP Spun Filter replacement.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mobile-nav-item whatsapp-nav-item"
-              >
-                <div className="nav-item-left">
-                  <MessageCircle size={18} />
-                  <span>WhatsApp Technician Support</span>
-                </div>
-              </a>
-            </li>
           </ul>
         </div>
       </div>

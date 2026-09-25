@@ -75,15 +75,10 @@ export function BulkEnquiry() {
           analytics.trackDealerEnquiry(payload);
         }
       } else {
-        setErrorMessage(data.message || 'Unable to submit enquiry at this moment.');
+        setErrorMessage(data.message || 'Unable to submit enquiry at this moment. Please try again or reach us via WhatsApp.');
       }
     } catch (err) {
-      // Fallback submission acknowledgement for offline testing
-      setSubmitSuccess({
-        leadId: `LEAD-MA-${Date.now()}`,
-        name: formData.name,
-        quantity: formData.requiredQuantity
-      });
+      setErrorMessage('Network connection error. Please check your internet connection or reach us directly via WhatsApp.');
     } finally {
       setIsSubmitting(false);
     }
@@ -131,18 +126,6 @@ export function BulkEnquiry() {
                 </div>
               </div>
             </div>
-
-            <div className="bulk-whatsapp-card">
-              <p>Prefer chatting directly with our B2B trade coordinator?</p>
-              <button
-                type="button"
-                className="bulk-wa-btn"
-                onClick={handleWhatsAppQuickConnect}
-              >
-                <MessageSquare size={18} />
-                <span>Connect with B2B Sales on WhatsApp</span>
-              </button>
-            </div>
           </div>
 
           {/* Right Column: Lead Form */}
@@ -155,13 +138,6 @@ export function BulkEnquiry() {
                   <p className="success-desc">
                     Thank you <strong>{submitSuccess.name}</strong>. Your enquiry for <strong>{submitSuccess.quantity}</strong> units (Ref: <code>{submitSuccess.leadId}</code>) has been logged in the Mirror Aqua CRM. Our B2B trade executive will contact you shortly.
                   </p>
-                  <button
-                    type="button"
-                    className="success-wa-btn"
-                    onClick={handleWhatsAppQuickConnect}
-                  >
-                    Send Instant WhatsApp Ping to Expedite Quote
-                  </button>
                   <button
                     type="button"
                     className="btn-reset-enquiry"

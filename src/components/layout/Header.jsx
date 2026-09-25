@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShoppingBag, Menu, User, PhoneCall, ShieldCheck, Droplet } from 'lucide-react';
+import { Search, ShoppingBag, Menu, User, ShieldCheck, Droplet } from 'lucide-react';
 import { useCart } from '../../context/CartContext.jsx';
 import { useWishlist } from '../../context/WishlistContext.jsx';
 import { useUI } from '../../context/UIContext.jsx';
@@ -11,8 +11,6 @@ export function Header({ currentPath = '/', onNavigate }) {
   const { totalItemCount, setIsCartOpen } = useCart();
   const { wishlistCount, setIsWishlistOpen } = useWishlist();
   const { setIsSearchOpen, setIsNavOpen } = useUI();
-
-  const WHATSAPP_NUM = import.meta.env.VITE_WHATSAPP_BUSINESS_NUMBER || '919876543210';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,12 +32,6 @@ export function Header({ currentPath = '/', onNavigate }) {
     { label: 'Bulk Enquiry', path: '#bulk-enquiry', isAnchor: true }
   ];
 
-  const handleWhatsAppSupport = () => {
-    analytics.trackWhatsAppClick('header_support_btn', { name: 'Mirror Aqua General Support' });
-    const msg = encodeURIComponent('Hello Mirror Aqua, I have an inquiry regarding water purifier replacement spare parts.');
-    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, '_blank');
-  };
-
   return (
     <header className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
       {/* Sleek Top Announcement Ribbon */}
@@ -51,9 +43,7 @@ export function Header({ currentPath = '/', onNavigate }) {
           </div>
           <div className="announcement-right desktop-only">
             <span className="announcement-badge"><ShieldCheck size={13} /> 100% Polypropylene</span>
-            <button className="announcement-wa-btn" onClick={handleWhatsAppSupport}>
-              WhatsApp Support
-            </button>
+            <span className="announcement-badge">Pan-India Express Dispatch</span>
           </div>
         </div>
       </div>
@@ -109,16 +99,6 @@ export function Header({ currentPath = '/', onNavigate }) {
 
         {/* Header Actions */}
         <div className="header-actions">
-          {/* WhatsApp Direct Support Button */}
-          <button
-            className="header-whatsapp-cta desktop-only"
-            onClick={handleWhatsAppSupport}
-            aria-label="Contact on WhatsApp"
-          >
-            <PhoneCall size={14} />
-            <span>Support</span>
-          </button>
-
           {/* Account */}
           <button
             className="header-action-btn desktop-only"

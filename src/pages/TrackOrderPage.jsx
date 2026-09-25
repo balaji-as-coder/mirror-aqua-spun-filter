@@ -207,15 +207,6 @@ export function TrackOrderPage({ onNavigate }) {
                 </a>
               </div>
             )}
-
-            {/* WhatsApp Direct Help */}
-            <div className="track-help-footer">
-              <p>Need expedited dispatch or assistance with your delivery?</p>
-              <button className="track-wa-action" onClick={handleWhatsAppInquiry}>
-                <MessageSquare size={16} />
-                <span>Chat with Mirror Aqua Support on WhatsApp</span>
-              </button>
-            </div>
           </div>
         )}
 
